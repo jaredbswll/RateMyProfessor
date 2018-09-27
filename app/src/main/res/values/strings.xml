@@ -1,3 +1,21 @@
 <resources>
     <string name="app_name">Rate My Professor</string>
+    <string-array name="array_professor">
+        <item>Snow, Jon</item>
+        <item>Stark, Eddard</item>
+        <item>Baratheon, Robert</item>
+        <item>Lannister, Tywin</item>
+        <item>Targaeryen, Daenerys</item>
+        <item>Tarly, Samwell</item>
+        <item>Bolton, Ramsay</item>
+        <item>Baratheon, Stannis</item>
+        <item>Arryn, Jon</item>
+        <item>Royce, Yohn</item>
+        <item>Thorne, Aliser</item>
+        <item>Stark, Robb</item>
+        <item>Manderly, Wyman</item>
+        <item>Mormont, Lyanna</item>
+        <item>Lannister, Cersei</item>
+        <item>Selmy, Barristan</item>
+    </string-array>
 </resources>
