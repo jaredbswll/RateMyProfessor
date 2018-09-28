@@ -41,4 +41,9 @@ public class PostSearch extends AppCompatActivity {
         Intent i = new Intent(this, MainActivity.class);
         startActivity(i);
     }
+
+    public void GoToProfessorPage(View view){
+        Intent in = new Intent(this, ProfessorPage.class);
+        startActivity(in);
+    }
 }

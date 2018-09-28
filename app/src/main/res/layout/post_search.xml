@@ -39,7 +39,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/results_template" />
+        app:layout_constraintTop_toBottomOf="@+id/results_template"/>
 
     <Button
         android:id="@+id/return_to_search"
@@ -51,11 +51,29 @@
         android:layout_marginRight="80dp"
         android:layout_marginStart="51dp"
         android:layout_marginTop="25dp"
+        android:onClick="returnToSearch"
         android:text="Return"
         app:layout_constraintBottom_toTopOf="@+id/results_view"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toEndOf="@+id/results_template"
         app:layout_constraintTop_toTopOf="parent"
-        android:onClick="returnToSearch"/>
+        app:layout_constraintVertical_bias="0.9" />
+
+    <Button
+        android:id="@+id/button2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="150dp"
+        android:layout_marginLeft="151dp"
+        android:layout_marginRight="150dp"
+        android:layout_marginStart="151dp"
+        android:layout_marginTop="3dp"
+        android:text="Professor"
+        android:onClick="GoToProfessorPage"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/results_view" />
 
 </android.support.constraint.ConstraintLayout>
