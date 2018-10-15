@@ -1,11 +1,18 @@
 package com.thisismyapp.ratemyprofessor;
 
 import android.content.Intent;
+import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.Toast;
+
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -13,6 +20,8 @@ import java.util.Arrays;
 public class MainActivity extends AppCompatActivity {
 
     ArrayAdapter<String> adapter;
+    private DatabaseReference database;             //Instance variable to access databas
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -26,6 +35,21 @@ public class MainActivity extends AppCompatActivity {
                 android.R.layout.simple_list_item_1,
                 arrayProfessor);
         lv.setAdapter(adapter);
+
+        //Initializing database:
+        database = FirebaseDatabase.getInstance().getReference();
+        //testing creating value in database:
+        database.setValue("This is a test adding value to child").addOnCompleteListener(new OnCompleteListener<Void>() {
+            @Override
+            public void onComplete(@NonNull Task<Void> task) {
+                if (task.isSuccessful()){
+                    Toast.makeText(MainActivity.this, "Stored Value", Toast.LENGTH_LONG).show();
+                } else {
+                    Toast.makeText(MainActivity.this, "Error with storing data", Toast.LENGTH_LONG).show();
+                }
+
+            }
+        });
     }
 
     public void Search(View view){
