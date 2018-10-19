@@ -11,8 +11,12 @@ import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -20,7 +24,8 @@ import java.util.Arrays;
 public class MainActivity extends AppCompatActivity {
 
     ArrayAdapter<String> adapter;
-    private DatabaseReference database;             //Instance variable to access databas
+    private DatabaseReference database;             //Instance variable to access database
+    private DatabaseReference ref;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,18 +43,19 @@ public class MainActivity extends AppCompatActivity {
 
         //Initializing database:
         database = FirebaseDatabase.getInstance().getReference();
-        //testing creating value in database:
-        database.setValue("This is a test adding value to child").addOnCompleteListener(new OnCompleteListener<Void>() {
+        //testing creating value in database
+
+        /*database.setValue("This is a test adding value to child").addOnCompleteListener(new OnCompleteListener<Void>() {
             @Override
             public void onComplete(@NonNull Task<Void> task) {
                 if (task.isSuccessful()){
-                    Toast.makeText(MainActivity.this, "Stored Value", Toast.LENGTH_LONG).show();
+                    Toast.makeText(MainActivity.this, "Got Value", Toast.LENGTH_LONG).show();
                 } else {
-                    Toast.makeText(MainActivity.this, "Error with storing data", Toast.LENGTH_LONG).show();
+                    Toast.makeText(MainActivity.this, "Error with getting value", Toast.LENGTH_LONG).show();
                 }
 
             }
-        });
+        });*/
     }
 
     public void Search(View view){
