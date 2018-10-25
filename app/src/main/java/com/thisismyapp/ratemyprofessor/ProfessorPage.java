@@ -1,11 +1,17 @@
 package com.thisismyapp.ratemyprofessor;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
+import android.view.Gravity;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 public class ProfessorPage extends AppCompatActivity {
@@ -57,10 +63,23 @@ public class ProfessorPage extends AppCompatActivity {
 
         //TODO: Test add comment functionality.
         String n = "Omero Paris";
-        String r = "3.0/10";
+        String r = "7.0";
         String date = "12/12/2018";
-        String c = "This class was alright, i enjoyed most parts of it but this is really just a test";
+        String c = "This class was alright, I enjoyed most parts of it but this is really just a test";
         addComment(n, r, date, c);
+
+        String n2 = "Omega";
+        String r2 = "3.0";
+        String date2 = "10/30/2018";
+        String c2 = "This class was stupid I am going to play fortnite now...";
+        addComment(n2, r2, date2, c2);
+
+/*        String n3 = "Zoey";
+        String r3 = "5.0";
+        String date3 = "11/11/2018";
+        String c3 = "This is potientially the worst skin in fortnite do NOT buy it, it can cause you to spew out toxicity and anyone you kill with this will instantly hate you!";
+        addComment(n3, r3, date3, c3);
+*/
 
     }
 
@@ -71,66 +90,83 @@ public class ProfessorPage extends AppCompatActivity {
     * output: Updates the display by adding a comment with the various info
     */
     public void addComment(String name, String rating, String date, String comment){
-        //ADDING COMMENTS DYNAMICALLY:
 
-        //TODO: Figure out a way to add another comment with different values
 
-        TextView usersName = (TextView) findViewById(R.id.users_name);
+        //Actually adding view:
+        LayoutInflater inflater = (LayoutInflater) getApplicationContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        View myView = inflater.inflate(R.layout.comment_frame,null);
+        LinearLayout mainLayout = (LinearLayout) findViewById(R.id.main_layout);
+
+
+        //Adding comment to the view:
+        mainLayout.addView(myView);
+
+        //Setting values of the comment to whatever is passed in:
+        TextView usersName = (TextView) findViewById(R.id.users_name2);
         usersName.setText(name);
-
-        TextView usersRating = (TextView) findViewById(R.id.users_rating);
+        TextView usersRating = (TextView) findViewById(R.id.users_rating2);
         usersRating.setText(rating);
-
-        TextView currentDate = (TextView) findViewById(R.id.date);
+        TextView currentDate = (TextView) findViewById(R.id.date2);
         currentDate.setText(date);
-
-        TextView usersComment = (TextView) findViewById(R.id.users_comment);
+        TextView usersComment = (TextView) findViewById(R.id.users_comment2);
         usersComment.setText(comment);
 
 
-/*      ****Doesn't work fully yet****
-        //Getting the correct layouts for the comment section
-        LinearLayout commentLayout = findViewById(R.id.user_comments);
-        LinearLayout usersInfo = findViewById(R.id.user_comment_info);
-        LinearLayout usersCommentNameRatingDate = findViewById(R.id.user_comment_nrd);
+        //THIS SECTION WAS ME TRYING TO MAKE THE "FRAME" FROM CODE, USELESS NOW BUT MIGHT BE GOOD TO KEEP:
+/*
+        //Making comment frame dynamically:
+        //Outer most Linear Layout
+        LinearLayout commentFrame = new LinearLayout(this);
+        commentFrame.setOrientation(LinearLayout.VERTICAL);
+        commentFrame.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT));
 
-        //add userInfo layout to comment layout:
-        usersInfo.setOrientation(LinearLayout.HORIZONTAL);
-        usersInfo.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT));
-        commentLayout.addView(usersInfo);
+        //Linear Layout for image, name, rating, date
+        LinearLayout userInfo = new LinearLayout(this);
+        userInfo.setOrientation(LinearLayout.VERTICAL);
+        userInfo.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT));
 
-        //Add users avatar to userInfo with constraints (look at professor_page.xml for constraints):
-        ImageView userAvatar = (ImageView) findViewById(R.id.user_avatar);
+        //Image View for users avatar (might need to change what you set the view to):
+        ImageView userAvatar = new ImageView(this);
         userAvatar.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.MATCH_PARENT));
-        usersInfo.addView(userAvatar);
-
-        //Add the layout for the users name, rating and date:
-        usersCommentNameRatingDate.setOrientation(LinearLayout.VERTICAL);
-        usersCommentNameRatingDate.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT));
-        usersInfo.addView(usersCommentNameRatingDate);
+        userAvatar.setImageDrawable(getResources().getDrawable(R.drawable.ic_launcher_background));
 
 
-        //Add the users info in the three text boxes next to the users avatar:
-        TextView usersName = (TextView) findViewById(R.id.users_name);
+        //Linear Layout for the users actual comment (users, name, rating and date)
+        LinearLayout usersNRD = new LinearLayout(this);
+        usersNRD.setOrientation(LinearLayout.VERTICAL);
+        usersNRD.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT));
+
+        //Text views to go into layout above
+        TextView usersName = new TextView(this);
         usersName.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT));
-        usersName.setText(name);
+        usersName.setText("TEST NAME");
 
-        TextView usersRating = (TextView) findViewById(R.id.users_rating);
+        TextView usersRating = new TextView(this);
         usersRating.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT));
-        usersRating.setText(rating);
+        usersRating.setText("9.0");
 
-        TextView currentDate = (TextView) findViewById(R.id.date);
-        usersRating.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT));
-        currentDate.setText(date);
+        TextView currentDate = new TextView(this);
+        currentDate.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT));
+        currentDate.setText("10/30/18");
 
-        //Add the users comment to the end of the view:
-        TextView usersComment = (TextView) findViewById(R.id.users_comment);
-        usersComment.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT));
-        usersComment.setText(comment);
+        //Final thing to create is the textView for the users actual comment:
+        TextView usersActualComment = new TextView(this);
+        usersActualComment.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT));
+        usersActualComment.setText("If you see this text I have actually got this to work and this is an example of what it should do");
+
+
+
+
+        //Users avatar being difficult
+        //Adding views together to get the view as it is on screen
+        commentFrame.addView(userInfo);
+        //userInfo.addView(userAvatar);
+        userInfo.addView(usersNRD);
+        usersNRD.addView(usersName);
+        usersNRD.addView(usersRating);
+        usersNRD.addView(currentDate);
+        commentFrame.addView(usersActualComment);
 */
-
-
-
     }
 
 }
