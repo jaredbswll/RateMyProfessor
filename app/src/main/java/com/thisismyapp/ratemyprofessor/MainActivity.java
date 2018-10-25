@@ -5,6 +5,9 @@ import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
+import android.view.ViewParent;
+import android.widget.Button;
+import android.widget.TextView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.Toast;
@@ -62,4 +65,5 @@ public class MainActivity extends AppCompatActivity {
         Intent i = new Intent(this, PostSearch.class);
         startActivity(i);
     }
+
 }

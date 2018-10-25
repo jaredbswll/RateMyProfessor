@@ -8,7 +8,10 @@
 
     <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:visibility="visible"
+        tools:layout_editor_absoluteX="82dp"
+        tools:layout_editor_absoluteY="16dp">
 
         <LinearLayout
             android:id="@+id/main_layout"
@@ -129,70 +132,22 @@
                 android:text="Submit" />
 
             <LinearLayout
-                android:id="@+id/user_comments"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                tools:layout_editor_absoluteX="4dp"
-                tools:layout_editor_absoluteY="203dp">
-
-                <LinearLayout
-                    android:id="@+id/user_comment_info"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    tools:layout_editor_absoluteX="0dp"
-                    tools:layout_editor_absoluteY="353dp">
-
-                    <ImageView
-                        android:id="@+id/user_avatar"
-                        android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
-                        android:layout_gravity="left"
-                        android:layout_weight="0"
-                        app:srcCompat="@mipmap/ic_launcher" />
-
-                    <LinearLayout
-                        android:id="@+id/user_comment_nrd"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:orientation="vertical">
-
-                        <TextView
-                            android:id="@+id/users_name"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:text="Dominic DiStefano"
-                            android:textSize="15sp"
-                            android:textStyle="bold" />
-
-                        <TextView
-                            android:id="@+id/users_rating"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:text="7.0/10.0"
-                            android:textSize="15sp" />
-
-                        <TextView
-                            android:id="@+id/date"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:text="09/25/18"
-                            android:textSize="15sp" />
-
-                    </LinearLayout>
-
-                </LinearLayout>
+                android:layout_height="match_parent"
+                android:orientation="vertical">
 
                 <TextView
-                    android:id="@+id/users_comment"
+                    android:id="@+id/textView2"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:lines="6"
-                    android:text="Good material, decent jokes, awful shirts. Also let a TA in that has never taken the class before... awkward." />
-
+                    android:text="Comments" />
             </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/user_comments"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical"></LinearLayout>
 
         </LinearLayout>
     </ScrollView>

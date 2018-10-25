@@ -28,6 +28,7 @@ public class SubmitListener implements View.OnClickListener {
         commentBox.setText("");
 
         prof.addComment(user, rating, "Date", comment);
+        profPage.addComment();
 
     }
 }

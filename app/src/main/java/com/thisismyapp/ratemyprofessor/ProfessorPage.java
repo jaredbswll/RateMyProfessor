@@ -5,14 +5,15 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
-import android.view.Gravity;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
+
+import java.util.ArrayList;
 
 public class ProfessorPage extends AppCompatActivity {
 
@@ -20,153 +21,143 @@ public class ProfessorPage extends AppCompatActivity {
     private String[] profRatingArray;       //String arrays to hold professors values retrieved from strings.xml file
     private String[] profClassArray;
 
+    private String[] profCommentsArray;
+
     private String profSearch;              //Variable to be used later the name of the professor that the user searched for
+    private ArrayList<Professor> tempDatabase;     //Place where data will be stored for professors in the meantime
+    private Professor currentProfessor;       //current Professor being shown on the page
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.professor_page);
 
+        tempDatabase = new ArrayList<Professor>();
+        //currentProfessor = new Professor("Dom", "5", "CSE 999");
+
         //Initializing arrays (getting them from strings.xml file)
         profClassArray = getResources().getStringArray(R.array. array_professor_class);
         profRatingArray = getResources().getStringArray(R.array. array_professor_rating);
         profNameArray = getResources().getStringArray(R.array. array_professor);
 
+        profCommentsArray = getResources().getStringArray(R.array.array_professor_comments);
+
         //This will work:
 
         //RANDOM VALUE FOR profSearch TO TEST:
-        profSearch = "He, Xin";
+        //TODO: have input from post-search page set this field
+        profSearch = "Hertz, Matthew";
+        //profSearch = this.getIntent().getStringExtra("professor");
 
         //Search to get professors correct index to be used by each array
         int index = 0;
         for (int i = 0; i < profNameArray.length; i++){
             if (profSearch.equals(profNameArray[i])){
                 index = i;
+                currentProfessor = new Professor(profNameArray[i], profRatingArray[i], profClassArray[i]);
+                currentProfessor.addComment("Dom", "4", "CSE 341", "My first comment");
+                currentProfessor.addComment("Dominic", "7", "CSE 234", "My second comment");
+                tempDatabase.add(currentProfessor);
+                //tempDatabase.add(new Professor(profNameArray[i], profRatingArray[i], profClassArray[i]));
+            }
+            else {
+                tempDatabase.add(new Professor(profNameArray[i], profRatingArray[i], profClassArray[i]));
             }
         }
 
-        //Get values to update the UI with:
+        /*Get values to update the UI with:
         String name = profNameArray[index];
         String rating = profRatingArray[index];
         String profClass = profClassArray[index];
 
+        String profComments = profCommentsArray[0];
+
+        String[] temp = profComments.split("\n");
+
         //Making professor object(do not know if this is needed):
-        Professor newProf = new Professor(name, rating, profClass);
+        Professor newProf = new Professor(name, rating, profClass); */
 
         //Update the UI:
         TextView tv1 = (TextView) findViewById(R.id.professor_name);
-        tv1.setText(name);
+        tv1.setText(currentProfessor.getName());
         TextView tv2 = (TextView) findViewById(R.id.professor_rating);
-        tv2.setText(rating);
+        tv2.setText(currentProfessor.getRating());
         TextView tv3 = (TextView) findViewById(R.id.professor_class);
-        tv3.setText(profClass);
+        tv3.setText(currentProfessor.getProfClass());
 
-        //TODO: Test add comment functionality.
-        String n = "Omero Paris";
-        String r = "7.0";
-        String date = "12/12/2018";
-        String c = "This class was alright, I enjoyed most parts of it but this is really just a test";
-        addComment(n, r, date, c);
+        ///////////////////////////////////////////////////////////
+        Button submit = (Button) findViewById(R.id.submit);
+        submit.setOnClickListener(new SubmitListener(this, this.currentProfessor));
 
-        String n2 = "Omega";
-        String r2 = "3.0";
-        String date2 = "10/30/2018";
-        String c2 = "This class was stupid I am going to play fortnite now...";
-        addComment(n2, r2, date2, c2);
+        addComment();
 
-/*        String n3 = "Zoey";
-        String r3 = "5.0";
-        String date3 = "11/11/2018";
-        String c3 = "This is potientially the worst skin in fortnite do NOT buy it, it can cause you to spew out toxicity and anyone you kill with this will instantly hate you!";
-        addComment(n3, r3, date3, c3);
-*/
+        //TODO: Get the text and create a comment object, then add that comment to the current professor and re-display the comments if needed
+
+        /////////////////////////////////////////////////////////////
 
     }
 
+//    public void addCom(String name, String rating, String comment){
+//        currentProfessor.addComment(name, rating, "CSE 111", comment);
+//    }
+//
+//    public Professor getProf(){
+//        return currentProfessor;
+//    }
+
+
 
     /*
-    * Function to add comment to the professor page when the submit button is pressed
-    * input: (String usersName, String usersRating, String date, String usersComment)
-    * output: Updates the display by adding a comment with the various info
-    */
-    public void addComment(String name, String rating, String date, String comment){
+     * Function to add comment to the professor page when the submit button is pressed
+     * input: (String usersName, String usersRating, String date, String usersComment)
+     * output: Updates the display by adding a comment with the various info
+     */
 
+    public void addComment() {
+        //ADDING COMMENTS DYNAMICALLY:
+        deleteComments();
+        //TODO: Figure out a way to add another comment with different values
 
         //Actually adding view:
+//        LayoutInflater inflater = (LayoutInflater) getApplicationContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+//        View myView = inflater.inflate(R.layout.comment_frame,null);
+//        LinearLayout mainLayout = (LinearLayout) findViewById(R.id.main_layout);
+        int count = 0;
+        for (Comments c : currentProfessor.getComments()) {
+            LayoutInflater inflater = (LayoutInflater) getApplicationContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+            View myView = inflater.inflate(R.layout.comment_frame, null);
+            LinearLayout mainLayout = (LinearLayout) findViewById(R.id.user_comments);
+
+            //Adding comment to the view:
+            mainLayout.addView(myView);
+            //Setting values of the comment to whatever is passed in:
+            TextView usersName = (TextView) findViewById(R.id.users_name2);
+            usersName.setId(count);
+            count++;
+            usersName.setText(c.getName());
+            TextView usersRating = (TextView) findViewById(R.id.users_rating2);
+            usersRating.setId(count);
+            count++;
+            usersRating.setText(c.getRating());
+            TextView currentDate = (TextView) findViewById(R.id.date2);
+            currentDate.setId(count);
+            count++;
+            currentDate.setText(c.getClassTaken());
+            TextView usersComment = (TextView) findViewById(R.id.users_comment2);
+            usersComment.setId(count);
+            count++;
+            usersComment.setText(c.getComment());
+
+        }
+
+    }
+
+    private void deleteComments(){
         LayoutInflater inflater = (LayoutInflater) getApplicationContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        View myView = inflater.inflate(R.layout.comment_frame,null);
-        LinearLayout mainLayout = (LinearLayout) findViewById(R.id.main_layout);
+        View myView = inflater.inflate(R.layout.comment_frame, null);
+        LinearLayout userComments = (LinearLayout) findViewById(R.id.user_comments);
 
-
-        //Adding comment to the view:
-        mainLayout.addView(myView);
-
-        //Setting values of the comment to whatever is passed in:
-        TextView usersName = (TextView) findViewById(R.id.users_name2);
-        usersName.setText(name);
-        TextView usersRating = (TextView) findViewById(R.id.users_rating2);
-        usersRating.setText(rating);
-        TextView currentDate = (TextView) findViewById(R.id.date2);
-        currentDate.setText(date);
-        TextView usersComment = (TextView) findViewById(R.id.users_comment2);
-        usersComment.setText(comment);
-
-
-        //THIS SECTION WAS ME TRYING TO MAKE THE "FRAME" FROM CODE, USELESS NOW BUT MIGHT BE GOOD TO KEEP:
-/*
-        //Making comment frame dynamically:
-        //Outer most Linear Layout
-        LinearLayout commentFrame = new LinearLayout(this);
-        commentFrame.setOrientation(LinearLayout.VERTICAL);
-        commentFrame.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT));
-
-        //Linear Layout for image, name, rating, date
-        LinearLayout userInfo = new LinearLayout(this);
-        userInfo.setOrientation(LinearLayout.VERTICAL);
-        userInfo.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT));
-
-        //Image View for users avatar (might need to change what you set the view to):
-        ImageView userAvatar = new ImageView(this);
-        userAvatar.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.MATCH_PARENT));
-        userAvatar.setImageDrawable(getResources().getDrawable(R.drawable.ic_launcher_background));
-
-
-        //Linear Layout for the users actual comment (users, name, rating and date)
-        LinearLayout usersNRD = new LinearLayout(this);
-        usersNRD.setOrientation(LinearLayout.VERTICAL);
-        usersNRD.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT));
-
-        //Text views to go into layout above
-        TextView usersName = new TextView(this);
-        usersName.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT));
-        usersName.setText("TEST NAME");
-
-        TextView usersRating = new TextView(this);
-        usersRating.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT));
-        usersRating.setText("9.0");
-
-        TextView currentDate = new TextView(this);
-        currentDate.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT));
-        currentDate.setText("10/30/18");
-
-        //Final thing to create is the textView for the users actual comment:
-        TextView usersActualComment = new TextView(this);
-        usersActualComment.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT));
-        usersActualComment.setText("If you see this text I have actually got this to work and this is an example of what it should do");
-
-
-
-
-        //Users avatar being difficult
-        //Adding views together to get the view as it is on screen
-        commentFrame.addView(userInfo);
-        //userInfo.addView(userAvatar);
-        userInfo.addView(usersNRD);
-        usersNRD.addView(usersName);
-        usersNRD.addView(usersRating);
-        usersNRD.addView(currentDate);
-        commentFrame.addView(usersActualComment);
-*/
+        userComments.removeAllViews();
     }
 
 }
