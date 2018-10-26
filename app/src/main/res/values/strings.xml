@@ -1,22 +1,73 @@
 <resources>
-    <string name="app_name">Rate My Professor</string>
+    <string name="app_name">Professor Power Ratings</string>
     <string name="results_example">Showing Results For: </string>
     <string-array name="array_professor">
-        <item>Snow, Jon</item>
-        <item>Stark, Eddard</item>
-        <item>Baratheon, Robert</item>
-        <item>Lannister, Tywin</item>
-        <item>Targaeryen, Daenerys</item>
-        <item>Tarly, Samwell</item>
-        <item>Bolton, Ramsay</item>
-        <item>Baratheon, Stannis</item>
-        <item>Arryn, Jon</item>
-        <item>Royce, Yohn</item>
-        <item>Thorne, Aliser</item>
-        <item>Stark, Robb</item>
-        <item>Manderly, Wyman</item>
-        <item>Mormont, Lyanna</item>
-        <item>Lannister, Cersei</item>
-        <item>Selmy, Barristan</item>
+        <item>Hertz, Matthew</item>
+        <item>Blanton, Marina</item>
+        <item>Chomicki, Jan</item>
+        <item>Dantu, Karthik</item>
+        <item>Demirbas, Murat</item>
+        <item>Doermann, David</item>
+        <item>Dong, Wen</item>
+        <item>Gaboardi, Marco</item>
+        <item>Gao, Jing</item>
+        <item>Gao, Mingchen</item>
+        <item>Hartloff, Jesse</item>
+        <item>He, Xin</item>
+        <item>Hughes, Andrew</item>
+        <item>Hunt, Alan</item>
+        <item>Jayaraman, Bharat</item>
+        <item>Jin, Zhanpeng</item>
+    </string-array>
+
+    <string-array name="array_professor_rating">
+        <item>1/10</item>
+        <item>2/10</item>
+        <item>3/10</item>
+        <item>4/10</item>
+        <item>5/10</item>
+        <item>6/10</item>
+        <item>7/10</item>
+        <item>8/10</item>
+        <item>9/10</item>
+        <item>10/10</item>
+        <item>1/10</item>
+        <item>2/10</item>
+        <item>3/10</item>
+        <item>4/10</item>
+        <item>5/10</item>
+        <item>6/10</item>
+    </string-array>
+
+    <string-array name="array_professor_class">
+        <item>CSE 1</item>
+        <item>CSE 2</item>
+        <item>CSE 3</item>
+        <item>CSE 4</item>
+        <item>CSE 5</item>
+        <item>CSE 6</item>
+        <item>CSE 7</item>
+        <item>CSE 8</item>
+        <item>CSE 9</item>
+        <item>CSE 10</item>
+        <item>CSE 11</item>
+        <item>CSE 12</item>
+        <item>CSE 13</item>
+        <item>CSE 14</item>
+        <item>CSE 15</item>
+        <item>CSE 16</item>
+    </string-array>
+
+    <string-array name="array_professor_comments">
+        <item index="0">
+            <item index="0"> Good guy 0.\n</item>
+            <item index="1"> Alright guy 0.\n</item>
+            <item index="2"> Awful guy 0.\n</item>
+        </item>
+        <item index="1">
+            <item index="0"> Good guy 1.</item>
+            <item index="1"> Alright guy 1.</item>
+            <item index="2"> Awful guy 1.</item>
+        </item>
     </string-array>
 </resources>
