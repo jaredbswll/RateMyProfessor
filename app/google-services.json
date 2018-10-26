@@ -1,0 +1,71 @@
+{
+  "project_info": {
+    "project_number": "897534101238",
+    "firebase_url": "https://ratemyprofessor442-18ef1.firebaseio.com",
+    "project_id": "ratemyprofessor442-18ef1",
+    "storage_bucket": "ratemyprofessor442-18ef1.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:897534101238:android:04aa175ce987c638",
+        "android_client_info": {
+          "package_name": "com.thisismyapp.ratemyprofessor"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "897534101238-95dt0u29h8lcdq6n1q7ur7ffa2jsqgp8.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.thisismyapp.ratemyprofessor",
+            "certificate_hash": "fea655b6acd22abe7f2c429f8265fba91cc03f84"
+          }
+        },
+        {
+          "client_id": "897534101238-2n3pud0rblqns4d0veb182tfkcdpjq83.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.thisismyapp.ratemyprofessor",
+            "certificate_hash": "20736f9a65144ef61aa80e85ee0a919668b831cc"
+          }
+        },
+        {
+          "client_id": "897534101238-2bmhcu3055030pl161cdurogurj0o6h6.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.thisismyapp.ratemyprofessor",
+            "certificate_hash": "6e75781079e272e2c2cc4d29b89fa2ba7aee5433"
+          }
+        },
+        {
+          "client_id": "897534101238-hv4pbr0funr4l6c0pgg66isckuph2e70.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDbUhOQceLxolTP24KOVlVN5dfX7pJY3Bk"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "897534101238-hv4pbr0funr4l6c0pgg66isckuph2e70.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

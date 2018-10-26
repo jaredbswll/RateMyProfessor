@@ -57,4 +57,17 @@
         <item>CSE 15</item>
         <item>CSE 16</item>
     </string-array>
+
+    <string-array name="array_professor_comments">
+        <item index="0">
+            <item index="0"> Good guy 0.\n</item>
+            <item index="1"> Alright guy 0.\n</item>
+            <item index="2"> Awful guy 0.\n</item>
+        </item>
+        <item index="1">
+            <item index="0"> Good guy 1.</item>
+            <item index="1"> Alright guy 1.</item>
+            <item index="2"> Awful guy 1.</item>
+        </item>
+    </string-array>
 </resources>
