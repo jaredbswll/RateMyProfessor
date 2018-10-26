@@ -24,7 +24,8 @@ public class ProfessorPage extends AppCompatActivity {
     private String[] profCommentsArray;
 
     private String profSearch;              //Variable to be used later the name of the professor that the user searched for
-    private ArrayList<Professor> tempDatabase;     //Place where data will be stored for professors in the meantime
+    private Database database;     //Place where data will be stored for professors in the meantime
+    private ArrayList<Professor> tempDatabase;
     private Professor currentProfessor;       //current Professor being shown on the page
 
     @Override
@@ -32,8 +33,13 @@ public class ProfessorPage extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.professor_page);
 
-        tempDatabase = new ArrayList<Professor>();
-        //currentProfessor = new Professor("Dom", "5", "CSE 999");
+        //dataBase of professors exists in the ActivityMain class. Here is where we initialize that database
+        database = MainActivity.getDatabase();
+        if(database == null){
+            database = new Database(findViewById(R.id.main_layout));
+            MainActivity.setDatabase(database);
+        }
+        tempDatabase = database.database;
 
         //Initializing arrays (getting them from strings.xml file)
         profClassArray = getResources().getStringArray(R.array. array_professor_class);
@@ -54,15 +60,16 @@ public class ProfessorPage extends AppCompatActivity {
         for (int i = 0; i < profNameArray.length; i++){
             if (profSearch.equals(profNameArray[i])){
                 index = i;
-                currentProfessor = new Professor(profNameArray[i], profRatingArray[i], profClassArray[i]);
-                currentProfessor.addComment("Dom", "4", "CSE 341", "My first comment");
-                currentProfessor.addComment("Dominic", "7", "CSE 234", "My second comment");
-                tempDatabase.add(currentProfessor);
-                //tempDatabase.add(new Professor(profNameArray[i], profRatingArray[i], profClassArray[i]));
+//                currentProfessor = new Professor(profNameArray[i], profRatingArray[i], profClassArray[i]);
+                currentProfessor = tempDatabase.get(i);
+//                currentProfessor.addComment("Dom", "4", "CSE 341", "My first comment");
+//                currentProfessor.addComment("Dominic", "7", "CSE 234", "My second comment");
+//                tempDatabase.add(currentProfessor);
+//                //tempDatabase.add(new Professor(profNameArray[i], profRatingArray[i], profClassArray[i]));
             }
-            else {
-                tempDatabase.add(new Professor(profNameArray[i], profRatingArray[i], profClassArray[i]));
-            }
+//            else {
+//                tempDatabase.add(new Professor(profNameArray[i], profRatingArray[i], profClassArray[i]));
+//            }
         }
 
         /*Get values to update the UI with:

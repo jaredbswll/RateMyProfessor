@@ -22,7 +22,7 @@ public class PostSearch extends AppCompatActivity {
         ListView lv = (ListView)findViewById(R.id.results_view);
         ArrayList<String> resultsArray = new ArrayList<>();
         String[] names = getResources().getStringArray(R.array.array_professor);
-        char search = 's';
+        char search = 'h';
         for(String name : names){
             if(name.toLowerCase().charAt(0) == search){
                 resultsArray.add(name);
