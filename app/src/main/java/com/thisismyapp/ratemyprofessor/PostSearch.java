@@ -1,9 +1,11 @@
 package com.thisismyapp.ratemyprofessor;
 
 import android.content.Intent;
+import android.database.Cursor;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
@@ -20,9 +22,9 @@ public class PostSearch extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.post_search);
         ListView lv = (ListView)findViewById(R.id.results_view);
-        ArrayList<String> resultsArray = new ArrayList<>();
+        final ArrayList<String> resultsArray = new ArrayList<>();
         String[] names = getResources().getStringArray(R.array.array_professor);
-        char search = 'h';
+        char search = 'd';
         for(String name : names){
             if(name.toLowerCase().charAt(0) == search){
                 resultsArray.add(name);
@@ -35,6 +37,20 @@ public class PostSearch extends AppCompatActivity {
                 android.R.layout.simple_list_item_1,
                 resultsArray);
         lv.setAdapter(adapter);
+
+        lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                String professor = resultsArray.get(i);
+                openProfessorPage(professor);
+            }
+        });
+    }
+
+    private void openProfessorPage(String professor){
+        Intent professorPage = new Intent(this, ProfessorPage.class);
+        professorPage.putExtra("professor", professor);
+        startActivity(professorPage);
     }
 
     public void returnToSearch(View view) {

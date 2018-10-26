@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Rate My Professor</string>
+    <string name="app_name">Professor Power Ratings</string>
     <string name="results_example">Showing Results For: </string>
     <string-array name="array_professor">
         <item>Hertz, Matthew</item>
