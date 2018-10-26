@@ -52,8 +52,7 @@ public class ProfessorPage extends AppCompatActivity {
 
         //RANDOM VALUE FOR profSearch TO TEST:
         //TODO: have input from post-search page set this field
-        profSearch = "Hertz, Matthew";
-        //profSearch = this.getIntent().getStringExtra("professor");
+        profSearch = this.getIntent().getStringExtra("professor");
 
         //Search to get professors correct index to be used by each array
         int index = 0;
