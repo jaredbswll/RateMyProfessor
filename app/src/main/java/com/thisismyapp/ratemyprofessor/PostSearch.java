@@ -24,9 +24,9 @@ public class PostSearch extends AppCompatActivity {
         ListView lv = (ListView)findViewById(R.id.results_view);
         final ArrayList<String> resultsArray = new ArrayList<>();
         String[] names = getResources().getStringArray(R.array.array_professor);
-        char search = 'd';
+        String search = this.getIntent().getStringExtra("professor");
         for(String name : names){
-            if(name.toLowerCase().charAt(0) == search){
+            if(name.toLowerCase().charAt(0) == search.toLowerCase().charAt(0)){
                 resultsArray.add(name);
             }
         }
