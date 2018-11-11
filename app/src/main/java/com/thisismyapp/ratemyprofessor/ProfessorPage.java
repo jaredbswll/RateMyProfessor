@@ -5,10 +5,14 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -33,6 +37,10 @@ public class ProfessorPage extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.professor_page);
 
+        //This line makes it so the keyboard isn't automatically launched when opening the app
+        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
+
+
         //dataBase of professors exists in the ActivityMain class. Here is where we initialize that database
         database = MainActivity.getDatabase();
         if(database == null){
@@ -51,7 +59,6 @@ public class ProfessorPage extends AppCompatActivity {
         //This will work:
 
         //RANDOM VALUE FOR profSearch TO TEST:
-        //TODO: have input from post-search page set this field
         profSearch = this.getIntent().getStringExtra("professor");
 
         //Search to get professors correct index to be used by each array
@@ -97,24 +104,59 @@ public class ProfessorPage extends AppCompatActivity {
 
         addComment();
 
-        //TODO: Get the text and create a comment object, then add that comment to the current professor and re-display the comments if needed
-
         /////////////////////////////////////////////////////////////
+
+        //Call character counter for the comment box:
+        commentCharCounter();
 
     }
 
-//    public void addCom(String name, String rating, String comment){
-//        currentProfessor.addComment(name, rating, "CSE 111", comment);
-//    }
-//
-//    public Professor getProf(){
-//        return currentProfessor;
-//    }
 
+    /*
+    * Description: Counts the characters that the user types into the comment box (since the max allowed is 200 characters)
+    *
+    * Input: None
+    * Output: Updates the "Character Counter" label under the comment box in real time
+     */
+    public void commentCharCounter(){
+        //Getting text view
+        final TextView charCountLabel = (TextView) findViewById(R.id.char_count);
+        TextWatcher mTextEditorWatcher = new TextWatcher() {
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            }
+
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                //This sets a textview to the current length
+                charCountLabel.setText("Character Count: " + String.valueOf(s.length()) + "/200");
+            }
+
+            public void afterTextChanged(Editable s) {
+            }
+        };
+        //Add listener to the comment box:
+        EditText commentBox = (EditText) findViewById(R.id.commentBar);
+        commentBox.addTextChangedListener(mTextEditorWatcher);
+    }
+
+
+    /*
+    * Function to check that the inputted users rating is within the valid range
+    *
+    * Input: (Int Users Rating)
+    * Output: True or False depending on if the users is from 1 - 10
+    */
+    public boolean checkUserRating(int rating){
+        if (rating >= 1 && rating <= 10){
+            return true;
+        } else {
+            return false;
+        }
+    }
 
 
     /*
      * Function to add comment to the professor page when the submit button is pressed
+     *
      * input: (String usersName, String usersRating, String date, String usersComment)
      * output: Updates the display by adding a comment with the various info
      */
@@ -122,12 +164,7 @@ public class ProfessorPage extends AppCompatActivity {
     public void addComment() {
         //ADDING COMMENTS DYNAMICALLY:
         deleteComments();
-        //TODO: Figure out a way to add another comment with different values
 
-        //Actually adding view:
-//        LayoutInflater inflater = (LayoutInflater) getApplicationContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-//        View myView = inflater.inflate(R.layout.comment_frame,null);
-//        LinearLayout mainLayout = (LinearLayout) findViewById(R.id.main_layout);
         int count = 0;
         for (Comments c : currentProfessor.getComments()) {
             LayoutInflater inflater = (LayoutInflater) getApplicationContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -140,15 +177,15 @@ public class ProfessorPage extends AppCompatActivity {
             TextView usersName = (TextView) findViewById(R.id.users_name2);
             usersName.setId(count);
             count++;
-            usersName.setText(c.getName());
+            usersName.setText("NAME:  " + c.getName());
             TextView usersRating = (TextView) findViewById(R.id.users_rating2);
             usersRating.setId(count);
             count++;
-            usersRating.setText(c.getRating());
+            usersRating.setText("RATING:  " + c.getRating());
             TextView currentDate = (TextView) findViewById(R.id.date2);
             currentDate.setId(count);
             count++;
-            currentDate.setText(c.getClassTaken());
+            currentDate.setText("CLASS TAKEN:  " + c.getClassTaken());
             TextView usersComment = (TextView) findViewById(R.id.users_comment2);
             usersComment.setId(count);
             count++;

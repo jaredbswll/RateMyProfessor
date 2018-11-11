@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
@@ -23,6 +24,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.database.core.Tag;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -34,6 +36,7 @@ public class MainActivity extends AppCompatActivity {
     private DatabaseReference database;             //Instance variable to access database
     private static Database tempDatabase;
     private DatabaseReference ref;
+
     /*
     finish - jared
      */
@@ -67,13 +70,15 @@ public class MainActivity extends AppCompatActivity {
         });
 
 
-
-        //Initializing database:
+        //TESTING WITH DATABASE:
+        //Initializing database
+        // Write a message to the database
         database = FirebaseDatabase.getInstance().getReference();
+
 //        tempDatabase = new Database(findViewById(R.id.main_layout));
         //testing creating value in database
-
-        /*database.setValue("This is a test adding value to child").addOnCompleteListener(new OnCompleteListener<Void>() {
+/*
+        database.setValue("NEW TEST PROFESSOR!!!!!!").addOnCompleteListener(new OnCompleteListener<Void>() {
             @Override
             public void onComplete(@NonNull Task<Void> task) {
                 if (task.isSuccessful()){
@@ -83,9 +88,9 @@ public class MainActivity extends AppCompatActivity {
                 }
 
             }
-        });*/
+        });
+*/
     }
-
     public void postSearchPage(String letters){
         Intent postSearchPage = new Intent(this, PostSearch.class);
         postSearchPage.putExtra("professor", letters);

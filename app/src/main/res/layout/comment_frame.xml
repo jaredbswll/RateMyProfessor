@@ -36,7 +36,7 @@
                     android:id="@+id/users_name2"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Dominic DiStefano"
+                    android:text="USERS NAME HERE "
                     android:textSize="15sp"
                     android:textStyle="bold" />
 
@@ -44,14 +44,14 @@
                     android:id="@+id/users_rating2"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="7.0/10.0"
+                    android:text="USERS RATING HERE "
                     android:textSize="15sp" />
 
                 <TextView
                     android:id="@+id/date2"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="09/25/18"
+                    android:text="USERS CLASS TAKEN HERE"
                     android:textSize="15sp" />
 
             </LinearLayout>
@@ -63,7 +63,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="Testing out the comment functionality right now to see if it will handle large comments" />
+            android:text="USERS COMMENT HERE " />
 
         <TextView
             android:id="@+id/blank_text"
