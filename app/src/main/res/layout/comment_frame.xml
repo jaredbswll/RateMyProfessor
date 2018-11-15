@@ -54,6 +54,13 @@
                     android:text="USERS CLASS TAKEN HERE"
                     android:textSize="15sp" />
 
+                <TextView
+                    android:id="@+id/users_hours_per_week2"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="USERS HOURS PER WEEK RATING HERE"
+                    android:textSize="15sp" />
+
             </LinearLayout>
 
         </LinearLayout>
@@ -63,7 +70,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="USERS COMMENT HERE " />
+            android:text="USERS COMMENT HERE "
+            android:textSize="15sp" />
 
         <TextView
             android:id="@+id/blank_text"

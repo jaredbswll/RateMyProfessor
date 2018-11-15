@@ -6,13 +6,15 @@ public class Comments {
     private String rating;
     private String classTaken;
     private String comment;
+    private int hpw;
 
     //Comment constructor
-    public Comments(String profName, String profRating, String takenClass, String userComment){
+    public Comments(String profName, String profRating, String takenClass, String userComment, int hoursPerWeek){
         this.name = profName;
         this.rating = profRating;
         this.classTaken = takenClass;
         this.comment  = userComment;
+        this.hpw = hoursPerWeek;
     }
 
     //Getters:
@@ -30,5 +32,9 @@ public class Comments {
 
     public String getComment(){
         return this.comment;
+    }
+
+    public int getHpw(){
+        return this.hpw;
     }
 }

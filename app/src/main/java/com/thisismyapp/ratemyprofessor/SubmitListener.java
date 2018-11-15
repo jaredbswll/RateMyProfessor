@@ -33,31 +33,47 @@ public class SubmitListener implements View.OnClickListener {
         String comment = commentBox.getText().toString();
         String hpw = hoursPerWeekBox.getText().toString();
 
-        // TODO - Clean up logic, check for conditions to be false then make up pop up box for each, have else at end that does normal stuff
-        // TODO - Also need to add hours per week to the users comments
 
-        //Checks if all input boxes have something in them
-        if (checkBoxes(user, rating, comment, hpw)){
+        //Logic for handling errors with the user input boxes.
+        //Checks that all boxes are filled out first then checks each box and if the input is invalid the corresponding pop-up is
+        //displayed, if all checks pass then normal comment function is executed
+        if (checkBoxes(user, rating, comment, hpw) ==  true){
             int numRating = Integer.parseInt(rating);
             int hoursPerWeekRating = Integer.parseInt(hpw);
             int commentCharCount = comment.length();            //Used to get the character count of the comment
-            //Actually checks if the user enters a number that is 1 - 10 using function from professor page and characterCount
-            if ( checkHoursPerWeek(hoursPerWeekRating) == true && profPage.checkUserRating(numRating) == true && commentCharCount <= 200) {
+            if(checkHoursPerWeek(hoursPerWeekRating) == false){
+                createPopUp("Check Hours Per Week", "Please make sure the hours per week entered is between 1 and 40.");
+            } else if (checkUserRating(numRating) == false){
+                createPopUp("Check Rating", "Please make sure the professors rating entered is between 1 and 10.");
+            } else if(commentCharCount >= 200){
+                createPopUp("Check Comment", "Please make sure your comment is 200 characters or less");
+            } else {
                 userBox.setText("");
                 ratingBox.setText("");
                 commentBox.setText("");
-                profHoursPerWeekBox.setText("Hours Per Week: " + hpw);
-                prof.addComment(user, rating, prof.getProfClass(), comment);
+                hoursPerWeekBox.setText("");
+                prof.addComment(user, rating, prof.getProfClass(), comment, hoursPerWeekRating);
                 profPage.addComment();
-            } else {
-                createPopUp("Check Rating/Comment", "Please double check that you input a number between 1 and 10 for the professors rating, input a number between 1 and 40 for the hours per week box and your comment is 200 characters or less.");
             }
         } else {
             createPopUp("Check Text Fields", "Please make sure no text fields are left empty.");
         }
-
     }
 
+
+    /*
+     * Description: This function checks that the inputted users rating is within the valid range
+     *
+     * Input: (Int Users Rating)
+     * Output: True or False depending on if the users is from 1 - 10
+     */
+    public boolean checkUserRating(int rating){
+        if (rating >= 1 && rating <= 10){
+            return true;
+        } else {
+            return false;
+        }
+    }
 
     /*
     * Description: This function returns true if the hours per week they typed in is between 1 and 40, false otherwise

@@ -1,7 +1,9 @@
 package com.thisismyapp.ratemyprofessor;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Paint;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
@@ -11,6 +13,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.WindowManager;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -102,12 +105,16 @@ public class ProfessorPage extends AppCompatActivity {
         Button submit = (Button) findViewById(R.id.submit);
         submit.setOnClickListener(new SubmitListener(this, this.currentProfessor));
 
-        addComment();
+        //addComment();
 
         /////////////////////////////////////////////////////////////
 
         //Call character counter for the comment box:
         commentCharCounter();
+
+        //Underlines Comments Label
+        TextView commentLabel = findViewById(R.id.prof_page_comments_label);
+        commentLabel.setPaintFlags(commentLabel.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
 
     }
 
@@ -140,21 +147,6 @@ public class ProfessorPage extends AppCompatActivity {
 
 
     /*
-    * Function to check that the inputted users rating is within the valid range
-    *
-    * Input: (Int Users Rating)
-    * Output: True or False depending on if the users is from 1 - 10
-    */
-    public boolean checkUserRating(int rating){
-        if (rating >= 1 && rating <= 10){
-            return true;
-        } else {
-            return false;
-        }
-    }
-
-
-    /*
      * Function to add comment to the professor page when the submit button is pressed
      *
      * input: (String usersName, String usersRating, String date, String usersComment)
@@ -162,8 +154,15 @@ public class ProfessorPage extends AppCompatActivity {
      */
 
     public void addComment() {
+
+        //Closes the keyboard whenever this function is called
+        //The purpose is to close the keyboard when the user submits their comment
+        InputMethodManager imm = (InputMethodManager) getSystemService(Activity.INPUT_METHOD_SERVICE);
+        imm.toggleSoftInput(InputMethodManager.HIDE_IMPLICIT_ONLY, 0);
+
         //ADDING COMMENTS DYNAMICALLY:
         deleteComments();
+
 
         int count = 0;
         for (Comments c : currentProfessor.getComments()) {
@@ -178,21 +177,56 @@ public class ProfessorPage extends AppCompatActivity {
             usersName.setId(count);
             count++;
             usersName.setText("NAME:  " + c.getName());
+
             TextView usersRating = (TextView) findViewById(R.id.users_rating2);
             usersRating.setId(count);
             count++;
             usersRating.setText("RATING:  " + c.getRating());
+
             TextView currentDate = (TextView) findViewById(R.id.date2);
             currentDate.setId(count);
             count++;
             currentDate.setText("CLASS TAKEN:  " + c.getClassTaken());
+
+            TextView usersHoursPerWeek = (TextView) findViewById(R.id.users_hours_per_week2);
+            usersHoursPerWeek.setId(count);
+            count++;
+            usersHoursPerWeek.setText("HOURS PER WEEK:  " + c.getHpw());
+
             TextView usersComment = (TextView) findViewById(R.id.users_comment2);
             usersComment.setId(count);
             count++;
             usersComment.setText(c.getComment());
 
+
         }
 
+        getAvgHoursPerWeek();
+    }
+
+    /*
+     * Description: Loops through the comments and displays the average hours per week
+     *
+     * Input: None (just uses professor instance variable)
+     * Output: Updates the hour per week label with correct average of all comments
+     */
+    public void getAvgHoursPerWeek(){
+        int hpwSum = 0;
+        int count = 0;
+        for (Comments c : currentProfessor.getComments()) {
+            int rating = c.getHpw();
+            hpwSum += rating;
+            count++;
+        }
+        TextView profHoursPerWeek = (TextView) findViewById(R.id.prof_hours_per_week);
+        if(count == 0){
+            //Do Nothing
+            //This catches divide by zero issue when first loading page
+        } else {
+            int avgHPW = hpwSum / count;
+            String hpwLabel = String.valueOf(avgHPW);
+            profHoursPerWeek.setText("Hours Per Week (Average): " + hpwLabel);
+        }
     }
 
     private void deleteComments(){
