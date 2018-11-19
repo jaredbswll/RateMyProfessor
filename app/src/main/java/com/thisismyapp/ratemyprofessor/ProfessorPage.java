@@ -20,6 +20,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
 public class ProfessorPage extends AppCompatActivity {
@@ -35,13 +36,12 @@ public class ProfessorPage extends AppCompatActivity {
     private ArrayList<Professor> tempDatabase;
     private Professor currentProfessor;       //current Professor being shown on the page
 
+    private static final int SECOND_ACTIVITY_REQUEST_CODE = 0;  //Used to get the info back from the commentPage
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.professor_page);
-
-        //This line makes it so the keyboard isn't automatically launched when opening the app
-        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
 
 
         //dataBase of professors exists in the ActivityMain class. Here is where we initialize that database
@@ -101,16 +101,32 @@ public class ProfessorPage extends AppCompatActivity {
         TextView tv3 = (TextView) findViewById(R.id.professor_class);
         tv3.setText(currentProfessor.getProfClass());
 
-        ///////////////////////////////////////////////////////////
-        Button submit = (Button) findViewById(R.id.submit);
-        submit.setOnClickListener(new SubmitListener(this, this.currentProfessor));
+        final ProfessorPage currentPage = this;
+        final Professor currentProf = this.currentProfessor;
 
-        //addComment();
+        ///////////////////////////////////////////////////////////
+        //Send user to comment page if button is clicked to leave a comment
+        Button leaveComment = (Button) findViewById(R.id.leave_comment_btn);
+        leaveComment.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(currentPage, CommentPage.class);
+                startActivityForResult(intent, SECOND_ACTIVITY_REQUEST_CODE);
+                //Intent i = new Intent(ProfessorPage.this, CommentPage.class);
+                //Bundle b = new Bundle();
+                //b.putSerializable("profPage", currentPage);
+                //b.putSerializable("prof", currentProf);
+                //i.putExtras(b);
+                //startActivity(i);
+            }
+        });
+
+        addComment();
 
         /////////////////////////////////////////////////////////////
 
-        //Call character counter for the comment box:
-        commentCharCounter();
+
+
 
         //Underlines Comments Label
         TextView commentLabel = findViewById(R.id.prof_page_comments_label);
@@ -120,29 +136,30 @@ public class ProfessorPage extends AppCompatActivity {
 
 
     /*
-    * Description: Counts the characters that the user types into the comment box (since the max allowed is 200 characters)
-    *
-    * Input: None
-    * Output: Updates the "Character Counter" label under the comment box in real time
+    * Description: This is a special function that is called when the user submits their comment it gets all
+    *               of the info from the boxes and makes a comment with them
+    *  Input: (Information from text boxes on professor page)
+    *  Output: Add comment to professor then add the comment to the professors page
      */
-    public void commentCharCounter(){
-        //Getting text view
-        final TextView charCountLabel = (TextView) findViewById(R.id.char_count);
-        TextWatcher mTextEditorWatcher = new TextWatcher() {
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-            }
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
 
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-                //This sets a textview to the current length
-                charCountLabel.setText("Character Count: " + String.valueOf(s.length()) + "/200");
-            }
+        // Check that it is the SecondActivity with an OK result
+        if (requestCode == SECOND_ACTIVITY_REQUEST_CODE) {
+            if (resultCode == Activity.RESULT_OK) {
 
-            public void afterTextChanged(Editable s) {
+                // Get String data from Intent
+                String usersName = data.getStringExtra("userName");
+                String usersRating= data.getStringExtra("userRating");
+                String usersComment = data.getStringExtra("comment");
+                String usersHpwRating = data.getStringExtra("hpw");
+
+                //Add that comment info to the professors object:
+                currentProfessor.addComment(usersName, usersRating, currentProfessor.getProfClass(), usersComment, usersHpwRating);
+                this.addComment();
             }
-        };
-        //Add listener to the comment box:
-        EditText commentBox = (EditText) findViewById(R.id.commentBar);
-        commentBox.addTextChangedListener(mTextEditorWatcher);
+        }
     }
 
 
@@ -157,8 +174,8 @@ public class ProfessorPage extends AppCompatActivity {
 
         //Closes the keyboard whenever this function is called
         //The purpose is to close the keyboard when the user submits their comment
-        InputMethodManager imm = (InputMethodManager) getSystemService(Activity.INPUT_METHOD_SERVICE);
-        imm.toggleSoftInput(InputMethodManager.HIDE_IMPLICIT_ONLY, 0);
+        //InputMethodManager imm = (InputMethodManager) getSystemService(Activity.INPUT_METHOD_SERVICE);
+        //imm.toggleSoftInput(InputMethodManager.HIDE_IMPLICIT_ONLY, 0);
 
         //ADDING COMMENTS DYNAMICALLY:
         deleteComments();
@@ -214,7 +231,7 @@ public class ProfessorPage extends AppCompatActivity {
         int hpwSum = 0;
         int count = 0;
         for (Comments c : currentProfessor.getComments()) {
-            int rating = c.getHpw();
+            int rating = Integer.parseInt(c.getHpw());
             hpwSum += rating;
             count++;
         }

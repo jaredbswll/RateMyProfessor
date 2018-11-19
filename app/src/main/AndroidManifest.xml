@@ -20,6 +20,7 @@
         <activity android:name=".MainActivity"></activity>
         <activity android:name=".PostSearch"></activity>
         <activity android:name=".ProfessorPage"></activity>
+        <activity android:name=".CommentPage"></activity>
     </application>
 
 </manifest>

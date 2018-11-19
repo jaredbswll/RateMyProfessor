@@ -3,9 +3,11 @@ package com.thisismyapp.ratemyprofessor;
 import android.text.Layout;
 import android.view.View;
 import android.support.v7.app.AppCompatActivity;
+
+import java.io.Serializable;
 import java.util.ArrayList;
 
-public class Database {
+public class Database{
 
     public static ArrayList<Professor> database;
 

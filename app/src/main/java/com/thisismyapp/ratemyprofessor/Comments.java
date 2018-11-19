@@ -1,15 +1,16 @@
 package com.thisismyapp.ratemyprofessor;
 
-public class Comments {
+
+public class Comments{
 
     private String name;
     private String rating;
     private String classTaken;
     private String comment;
-    private int hpw;
+    private String hpw;
 
     //Comment constructor
-    public Comments(String profName, String profRating, String takenClass, String userComment, int hoursPerWeek){
+    public Comments(String profName, String profRating, String takenClass, String userComment, String hoursPerWeek){
         this.name = profName;
         this.rating = profRating;
         this.classTaken = takenClass;
@@ -34,7 +35,7 @@ public class Comments {
         return this.comment;
     }
 
-    public int getHpw(){
+    public String getHpw(){
         return this.hpw;
     }
 }
