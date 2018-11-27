@@ -89,20 +89,6 @@
                 android:orientation="vertical">
 
                 <TextView
-                    android:id="@+id/prof_hours_per_week"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="Hours Per Week (Average):"
-                    android:textSize="17sp"
-                    android:textStyle="bold" />
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="vertical">
-
-                <TextView
                     android:id="@+id/prof_blank_tv2"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content" />

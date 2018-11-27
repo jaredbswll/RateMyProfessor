@@ -20,8 +20,13 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import org.w3c.dom.Text;
+
 import java.io.Serializable;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.Locale;
 
 public class ProfessorPage extends AppCompatActivity {
 
@@ -69,29 +74,10 @@ public class ProfessorPage extends AppCompatActivity {
         for (int i = 0; i < profNameArray.length; i++){
             if (profSearch.equals(profNameArray[i])){
                 index = i;
-//                currentProfessor = new Professor(profNameArray[i], profRatingArray[i], profClassArray[i]);
                 currentProfessor = tempDatabase.get(i);
-//                currentProfessor.addComment("Dom", "4", "CSE 341", "My first comment");
-//                currentProfessor.addComment("Dominic", "7", "CSE 234", "My second comment");
-//                tempDatabase.add(currentProfessor);
-//                //tempDatabase.add(new Professor(profNameArray[i], profRatingArray[i], profClassArray[i]));
             }
-//            else {
-//                tempDatabase.add(new Professor(profNameArray[i], profRatingArray[i], profClassArray[i]));
-//            }
         }
 
-        /*Get values to update the UI with:
-        String name = profNameArray[index];
-        String rating = profRatingArray[index];
-        String profClass = profClassArray[index];
-
-        String profComments = profCommentsArray[0];
-
-        String[] temp = profComments.split("\n");
-
-        //Making professor object(do not know if this is needed):
-        Professor newProf = new Professor(name, rating, profClass); */
 
         //Update the UI:
         TextView tv1 = (TextView) findViewById(R.id.professor_name);
@@ -111,16 +97,13 @@ public class ProfessorPage extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(currentPage, CommentPage.class);
+                //This is used to call the commentPage and wait until submit is clicked to get the
+                //data from that page
                 startActivityForResult(intent, SECOND_ACTIVITY_REQUEST_CODE);
-                //Intent i = new Intent(ProfessorPage.this, CommentPage.class);
-                //Bundle b = new Bundle();
-                //b.putSerializable("profPage", currentPage);
-                //b.putSerializable("prof", currentProf);
-                //i.putExtras(b);
-                //startActivity(i);
             }
         });
 
+        //Deletes and adds all comments so they aren't duplicated each time page is opened
         addComment();
 
         /////////////////////////////////////////////////////////////
@@ -154,9 +137,11 @@ public class ProfessorPage extends AppCompatActivity {
                 String usersRating= data.getStringExtra("userRating");
                 String usersComment = data.getStringExtra("comment");
                 String usersHpwRating = data.getStringExtra("hpw");
+                String usersClassTaken = data.getStringExtra("ct");
+                String usersClassDifficulty = data.getStringExtra("cd");
 
                 //Add that comment info to the professors object:
-                currentProfessor.addComment(usersName, usersRating, currentProfessor.getProfClass(), usersComment, usersHpwRating);
+                currentProfessor.addComment(usersName, usersRating, usersClassTaken, usersComment, usersHpwRating, usersClassDifficulty);
                 this.addComment();
             }
         }
@@ -171,15 +156,11 @@ public class ProfessorPage extends AppCompatActivity {
      */
 
     public void addComment() {
-
-        //Closes the keyboard whenever this function is called
-        //The purpose is to close the keyboard when the user submits their comment
-        //InputMethodManager imm = (InputMethodManager) getSystemService(Activity.INPUT_METHOD_SERVICE);
-        //imm.toggleSoftInput(InputMethodManager.HIDE_IMPLICIT_ONLY, 0);
-
         //ADDING COMMENTS DYNAMICALLY:
         deleteComments();
 
+        //Gets the current date using users phone
+        String date = new SimpleDateFormat("MM-dd-yyyy", Locale.getDefault()).format(new Date());
 
         int count = 0;
         for (Comments c : currentProfessor.getComments()) {
@@ -195,20 +176,30 @@ public class ProfessorPage extends AppCompatActivity {
             count++;
             usersName.setText("NAME:  " + c.getName());
 
+            TextView currentDate = (TextView) findViewById(R.id.date2);
+            currentDate.setId(count);
+            count++;
+            currentDate.setText("DATE:  " + date);
+
             TextView usersRating = (TextView) findViewById(R.id.users_rating2);
             usersRating.setId(count);
             count++;
             usersRating.setText("RATING:  " + c.getRating());
 
-            TextView currentDate = (TextView) findViewById(R.id.date2);
-            currentDate.setId(count);
+            TextView usersClassTaken = (TextView) findViewById(R.id.users_class_taken2);
+            usersClassTaken.setId(count);
             count++;
-            currentDate.setText("CLASS TAKEN:  " + c.getClassTaken());
+            usersClassTaken.setText("CLASS TAKEN:  " + c.getClassTaken());
 
             TextView usersHoursPerWeek = (TextView) findViewById(R.id.users_hours_per_week2);
             usersHoursPerWeek.setId(count);
             count++;
             usersHoursPerWeek.setText("HOURS PER WEEK:  " + c.getHpw());
+
+            TextView usersClassDifficulty = (TextView) findViewById(R.id.users_class_difficulty2);
+            usersClassDifficulty.setId(count);
+            count++;
+            usersClassDifficulty.setText("CLASS DIFFICULTY:  " + c.getClassDiff());
 
             TextView usersComment = (TextView) findViewById(R.id.users_comment2);
             usersComment.setId(count);
@@ -217,34 +208,8 @@ public class ProfessorPage extends AppCompatActivity {
 
 
         }
-
-        getAvgHoursPerWeek();
     }
 
-    /*
-     * Description: Loops through the comments and displays the average hours per week
-     *
-     * Input: None (just uses professor instance variable)
-     * Output: Updates the hour per week label with correct average of all comments
-     */
-    public void getAvgHoursPerWeek(){
-        int hpwSum = 0;
-        int count = 0;
-        for (Comments c : currentProfessor.getComments()) {
-            int rating = Integer.parseInt(c.getHpw());
-            hpwSum += rating;
-            count++;
-        }
-        TextView profHoursPerWeek = (TextView) findViewById(R.id.prof_hours_per_week);
-        if(count == 0){
-            //Do Nothing
-            //This catches divide by zero issue when first loading page
-        } else {
-            int avgHPW = hpwSum / count;
-            String hpwLabel = String.valueOf(avgHPW);
-            profHoursPerWeek.setText("Hours Per Week (Average): " + hpwLabel);
-        }
-    }
 
     private void deleteComments(){
         LayoutInflater inflater = (LayoutInflater) getApplicationContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);

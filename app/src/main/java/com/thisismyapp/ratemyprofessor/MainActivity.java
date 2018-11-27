@@ -52,6 +52,7 @@ public class MainActivity extends AppCompatActivity {
         ListView lv = (ListView)findViewById(R.id.listViewProfessors);
         final ArrayList<String> arrayProfessor = new ArrayList<>();
         arrayProfessor.addAll(Arrays.asList(getResources().getStringArray(R.array.search_letters)));
+
 /* finish - jared
         addItemsOnSpinner();
         addListenerOnButton();

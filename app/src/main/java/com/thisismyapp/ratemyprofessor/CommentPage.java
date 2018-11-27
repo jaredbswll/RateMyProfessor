@@ -10,13 +10,16 @@ import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
 import android.view.WindowManager;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
-import java.io.Serializable;
 
-public class CommentPage extends AppCompatActivity {
+public class CommentPage extends AppCompatActivity implements AdapterView.OnItemSelectedListener{
 
 
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,6 +34,15 @@ public class CommentPage extends AppCompatActivity {
         commentCharCounter();
 
         Button submit = (Button) findViewById(R.id.submit);
+        
+        final Spinner classDiffSpinner = findViewById(R.id.user_class_difficulty);
+        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this, R.array.class_difficulties, android.R.layout.simple_spinner_item);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        classDiffSpinner.setAdapter(adapter);
+        classDiffSpinner.setOnItemSelectedListener(this);
+
+        //The code within the listener is mainly from submitListener class handles error checking
+        // and sending info back to prof page
         submit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -39,17 +51,22 @@ public class CommentPage extends AppCompatActivity {
                 TextView ratingBox = (TextView) findViewById(R.id.user_rating_input);
                 TextView commentBox = (TextView) findViewById(R.id.commentBar);
                 TextView hoursPerWeekBox = (TextView) findViewById(R.id.user_hours_per_week);
+                TextView classTakenBox = (TextView) findViewById(R.id.user_class_taken);
 
                 //Getting the strings the user types into those text views
                 String user = userBox.getText().toString();
                 String rating = ratingBox.getText().toString();
                 String comment = commentBox.getText().toString();
                 String hpw = hoursPerWeekBox.getText().toString();
+                String classTaken = classTakenBox.getText().toString();
+                String classDifficulty = classDiffSpinner.getSelectedItem().toString();
 
-                //2.) Make new intent and send info back to professor page
-                if(checkBoxes(user, rating, comment, hpw) == true){
+
+                //Logic that checks each box and displays correct pop-up urging user to correct input
+                if(checkBoxes(user, rating, comment, hpw, classTaken, classDifficulty) == true){
                     int numRating = Integer.parseInt(rating);
                     int hoursPerWeekRating = Integer.parseInt(hpw);
+                    int classTakenLength = classTaken.length();
                     int commentCharCount = comment.length();            //Used to get the character count of the comment
                     if(checkHoursPerWeek(hoursPerWeekRating) == false){
                         createPopUp("Check Hours Per Week", "Please make sure the hours per week entered is between 1 and 40.");
@@ -57,11 +74,14 @@ public class CommentPage extends AppCompatActivity {
                         createPopUp("Check Rating", "Please make sure the rating entered is between 1 and 10.");
                     } else if(commentCharCount >= 200){
                         createPopUp("Check Comment", "Please make sure your comment is 200 characters or less");
+                    } else if(classTakenLength > 7){
+                        createPopUp("Check Class Taken", "Please make the class taken entered is the class code (Ex. PSY 101, BIO 200) and not the class name.");
                     } else {
                         userBox.setText("");
                         ratingBox.setText("");
                         commentBox.setText("");
                         hoursPerWeekBox.setText("");
+                        classTakenBox.setText("");
 
                         //If all checks pass, pass all info back to be made into a comment and added to that professor and his page
                         Intent intent = new Intent();
@@ -69,20 +89,16 @@ public class CommentPage extends AppCompatActivity {
                         intent.putExtra("userRating", rating);
                         intent.putExtra("comment", comment);
                         intent.putExtra("hpw", hpw);
+                        intent.putExtra("ct", classTaken);
+                        intent.putExtra("cd", classDifficulty);
                         setResult(Activity.RESULT_OK, intent);
                         finish();
-                        //prof.addComment(user, rating, prof.getProfClass(), comment, hoursPerWeekRating);
-                        //profPage.addComment();
                     }
                 } else {
-                    createPopUp("Check Text Fields", "Please make sure no text fields are left empty.");
+                    createPopUp("Check Text Fields", "Please make sure no text fields are left empty. Make sure value is selected from class difficulty drop down box too.");
                 }
             }
         });
-        //submit.setOnClickListener(new SubmitListener(profPage, prof, this));
-
-        //Send user back to professor page after comment has been submitted correctly:
-
     }
 
     /*
@@ -138,11 +154,11 @@ public class CommentPage extends AppCompatActivity {
     /*
      * Description: This function returns true if all input boxes have input in them, false otherwise
      *
-     * Input: (String usersName, String usersRating, String usersComment, String hoursPerWeek)
+     * Input: (String usersName, String usersRating, String usersComment, String hoursPerWeek, String classTaken)
      * Output: True or False
      */
-    public boolean checkBoxes(String usersName, String usersRating, String usersComment, String hpw){
-        if (usersName.equals("") || usersRating.equals("") || usersComment.equals("") || hpw.equals("")){
+    public boolean checkBoxes(String usersName, String usersRating, String usersComment, String hpw, String ct, String cd){
+        if (usersName.equals("") || usersRating.equals("") || usersComment.equals("") || hpw.equals("") || ct.equals("") || cd.equals("Select Option")){
             return false;
         } else {
             return true;
@@ -173,5 +189,23 @@ public class CommentPage extends AppCompatActivity {
         //Add listener to the comment box:
         EditText commentBox = (EditText) findViewById(R.id.commentBar);
         commentBox.addTextChangedListener(mTextEditorWatcher);
+    }
+
+    /*
+    * Description: Function that acts on spinner when dropdown item is selected
+    *
+    */
+    @Override
+    public void onItemSelected(AdapterView<?> parent, View view, int position, long l) {
+
+    }
+
+    /*
+     * Description: Function that acts on spinner when nothing is selected
+     *
+     */
+    @Override
+    public void onNothingSelected(AdapterView<?> parent) {
+
     }
 }

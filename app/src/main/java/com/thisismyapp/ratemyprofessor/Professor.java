@@ -35,8 +35,8 @@ public class Professor {
 
     public ArrayList<Comments> getComments(){ return this.comments; }
 
-    public void addComment(String name, String rating, String classTaken, String comment, String hoursPerWeek){
-        comments.add(new Comments(name, rating, classTaken, comment, hoursPerWeek));
+    public void addComment(String name, String rating, String classTaken, String comment, String hoursPerWeek, String classDifficulty){
+        comments.add(new Comments(name, rating, classTaken, comment, hoursPerWeek, classDifficulty));
     }
 
     public void addComment(Comments comment) { comments.add(comment); }
