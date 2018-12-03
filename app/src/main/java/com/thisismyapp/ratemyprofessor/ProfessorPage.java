@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.graphics.Paint;
 import android.os.Bundle;
 import android.os.Handler;
+import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -20,13 +21,21 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
+
 import org.w3c.dom.Text;
 
 import java.io.Serializable;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.Locale;
+import java.util.Map;
 
 public class ProfessorPage extends AppCompatActivity {
 
@@ -40,6 +49,9 @@ public class ProfessorPage extends AppCompatActivity {
     private Database database;     //Place where data will be stored for professors in the meantime
     private ArrayList<Professor> tempDatabase;
     private Professor currentProfessor;       //current Professor being shown on the page
+    private String[] testProfSearch;
+
+    private FirebaseFirestore _firestore;
 
     private static final int SECOND_ACTIVITY_REQUEST_CODE = 0;  //Used to get the info back from the commentPage
 
@@ -48,14 +60,15 @@ public class ProfessorPage extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.professor_page);
 
+        _firestore = FirebaseFirestore.getInstance();
 
         //dataBase of professors exists in the ActivityMain class. Here is where we initialize that database
         database = MainActivity.getDatabase();
         if(database == null){
-            database = new Database(findViewById(R.id.main_layout));
+            database = new Database();
             MainActivity.setDatabase(database);
         }
-        tempDatabase = database.database;
+        //tempDatabase = database.database;
 
         //Initializing arrays (getting them from strings.xml file)
         profClassArray = getResources().getStringArray(R.array. array_professor_class);
@@ -67,16 +80,39 @@ public class ProfessorPage extends AppCompatActivity {
         //This will work:
 
         //RANDOM VALUE FOR profSearch TO TEST:
-        profSearch = this.getIntent().getStringExtra("professor");
+        //profSearch = this.getIntent().getStringExtra("professor");
+        testProfSearch = this.getIntent().getStringArrayExtra("professor");
+
+        currentProfessor = new Professor(testProfSearch[0], testProfSearch[1], testProfSearch[2]);
+
+//        _firestore.collection("professors").document("Matthew Hertz")
+//                .get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+//            @Override
+//            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+//                DocumentSnapshot profes = task.getResult();
+//                if(profes.exists() && profes != null) {
+//                    String classes = profes.getString("class");
+//                    String rating = (String) profes.get("rating");
+//
+//                    currentProfessor = new Professor(profSearch, rating, classes);
+//                }
+//            }
+//        });
+
+//        Map<String, Object> test = new HashMap<String, Object>();
+//        test.put("class", "CSE 999");
+//        test.put("rating", 0);
+//
+//        _firestore.collection("professors").document("Dominic DiStefano").set(test);
 
         //Search to get professors correct index to be used by each array
-        int index = 0;
-        for (int i = 0; i < profNameArray.length; i++){
-            if (profSearch.equals(profNameArray[i])){
-                index = i;
-                currentProfessor = tempDatabase.get(i);
-            }
-        }
+//        int index = 0;
+//        for (int i = 0; i < profNameArray.length; i++){
+//            if (profSearch.equals(profNameArray[i])){
+//                index = i;
+//                currentProfessor = tempDatabase.get(i);
+//            }
+//        }
 
 
         //Update the UI:
@@ -104,6 +140,23 @@ public class ProfessorPage extends AppCompatActivity {
         });
 
         //Deletes and adds all comments so they aren't duplicated each time page is opened
+
+        String[] commentsList = this.getIntent().getStringArrayExtra("comments");
+        int numComments = commentsList.length/6;
+        int counter = 0;
+        for (int i = 0; i < numComments; i++){
+            String classTaken = commentsList[counter]; //classTaken
+            String rating = commentsList[counter + 1]; //rating
+            String comment = commentsList[counter + 2]; //comment
+            String classDiff = commentsList[counter + 3]; //classDiff
+            String user = commentsList[counter + 4]; //user
+            String hpw = commentsList[counter + 5]; //hpw
+
+            currentProfessor.addComment(user, rating, classTaken,  comment, hpw, classDiff);
+
+            counter += 6;
+        }
+
         addComment();
 
         /////////////////////////////////////////////////////////////
@@ -133,16 +186,44 @@ public class ProfessorPage extends AppCompatActivity {
             if (resultCode == Activity.RESULT_OK) {
 
                 // Get String data from Intent
-                String usersName = data.getStringExtra("userName");
-                String usersRating= data.getStringExtra("userRating");
-                String usersComment = data.getStringExtra("comment");
-                String usersHpwRating = data.getStringExtra("hpw");
-                String usersClassTaken = data.getStringExtra("ct");
-                String usersClassDifficulty = data.getStringExtra("cd");
+                final String usersName = data.getStringExtra("userName");
+                final String usersRating= data.getStringExtra("userRating");
+                final String usersComment = data.getStringExtra("comment");
+                final String usersHpwRating = data.getStringExtra("hpw");
+                final String usersClassTaken = data.getStringExtra("ct");
+                final String usersClassDifficulty = data.getStringExtra("cd");
 
                 //Add that comment info to the professors object:
                 currentProfessor.addComment(usersName, usersRating, usersClassTaken, usersComment, usersHpwRating, usersClassDifficulty);
-                this.addComment();
+
+                _firestore.collection("professors").document(currentProfessor.getName()).get()
+                .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                        if(task.isSuccessful()){
+                            DocumentSnapshot doc = task.getResult();
+                            DocumentReference docRef = doc.getReference();
+
+                            Map<String, Object> comment = new HashMap<String, Object>();
+                            comment.put("classDifficulty", usersClassDifficulty);
+                            comment.put("classTaken", usersClassTaken);
+                            comment.put("hpw", Integer.parseInt(usersHpwRating));
+                            comment.put("rating", Integer.parseInt(usersRating));
+                            comment.put("comment", usersComment);
+                            comment.put("user", usersName);
+
+                            ArrayList<Map<String, Object>> commentsList = (ArrayList<Map<String, Object>>) doc.get("comments");
+                            commentsList.add(comment);
+
+                            docRef.update("comments", commentsList);
+
+                            addComment();
+
+                        }
+                    }
+                });
+
+                //this.addComment();
             }
         }
     }

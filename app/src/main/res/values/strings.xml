@@ -2,7 +2,7 @@
     <string name="app_name">Professor Power Ratings</string>
     <string name="results_example">Showing Results For: </string>
     <string-array name="array_professor">
-        <item>Hertz, Matthew</item>
+        <item>Matthew Hertz</item>
         <item>Blanton, Marina</item>
         <item>Chomicki, Jan</item>
         <item>Dantu, Karthik</item>
