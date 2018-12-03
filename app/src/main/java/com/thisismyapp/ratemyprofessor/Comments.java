@@ -1,6 +1,8 @@
 package com.thisismyapp.ratemyprofessor;
 
 
+import android.os.Parcelable;
+
 public class Comments{
 
     private String name;

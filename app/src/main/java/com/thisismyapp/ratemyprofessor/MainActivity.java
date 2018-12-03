@@ -25,25 +25,31 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.database.core.Tag;
+import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
 
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class MainActivity extends AppCompatActivity {
 
     ArrayAdapter<String> adapter;
-    private DatabaseReference database;             //Instance variable to access database
     private static Database tempDatabase;
-    private DatabaseReference ref;
 
     /*
     finish - jared
      */
     private Spinner dropDown;
     private Button submitButton;
+    private FirebaseFirestore fs;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -72,11 +78,80 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        fs = FirebaseFirestore.getInstance();
+
+//        CollectionReference profRef = fs.collection("professors");
+//        com.google.firebase.firestore.Query query = profRef.whereEqualTo("rating", 10);
+        int i = 0;
+//        ArrayList<DocumentReference> professors = new ArrayList<DocumentReference>();
+//
+//        String cse = "CSE ";
+//
+//        for(int inc = 0; inc < 400; inc++){
+//            int number = 100 + inc;
+//            String num = Integer.toString(number);
+//
+//            while(num.length() < 3){
+//                num = "0" + num;
+//            }
+//
+//            String addMe = "CSE " + num;
+//
+//            Map<String, Object> maps = new HashMap<String, Object>();
+//            maps.put("professors", professors);
+//            fs.collection("classes").document(addMe).set(maps);
+//
+//        }
+        //fs.collection("professors").get();
+//        fs.collection("professors").get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+//            @Override
+//            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+//                if(task.isSuccessful()) {
+//                    for (QueryDocumentSnapshot doc : task.getResult()) {
+//                        //DocumentSnapshot doc = task.getResult();
+//                        final DocumentReference docRef = doc.getReference();
+//
+//                        ArrayList<String> classes = (ArrayList<String>) doc.get("classes");
+//                        final ArrayList<DocumentReference> updatedClasses = new ArrayList<DocumentReference>();
+//
+////                    Map<String, Object> maps = new HashMap<String, Object>();
+////                    maps.put("classesRef", updatedClasses);
+//
+//                        //docRef.update("classesRef", updatedClasses);
+//
+//                        for (String clas : classes) {
+//                            //String filename = "/classes/" + clas;
+//                            fs.collection("classes").document(clas).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+//                                @Override
+//                                public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+//                                    if (task.isSuccessful()) {
+//                                        DocumentSnapshot doc2 = task.getResult();
+//                                        DocumentReference docRef2 = doc2.getReference();
+//
+//                                        updatedClasses.add(doc2.getReference());
+//                                        docRef.update("classesRef", updatedClasses);
+//
+//                                        ArrayList<DocumentReference> profs = (ArrayList<DocumentReference>) doc2.get("professors");
+//
+//                                        profs.add(docRef);
+//                                        docRef2.update("professors", profs);
+//
+//                                    }
+//                                }
+//                            });
+//
+//                        }
+//                    }
+//                }
+//            }
+//        });
+
+
+
+
+
 
         //TESTING WITH DATABASE:
-        //Initializing database
-        // Write a message to the database
-        database = FirebaseDatabase.getInstance().getReference();
 
 //        tempDatabase = new Database(findViewById(R.id.main_layout));
         //testing creating value in database
