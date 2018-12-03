@@ -135,6 +135,13 @@ public class PostSearch extends AppCompatActivity {
         });
     }
 
+    @Override
+    public void onBackPressed(){
+        Intent i = new Intent(this, MainActivity.class);
+        startActivity(i);
+        finish();
+    }
+
     private void openProfessorPage(String professor){
         Intent professorPage = new Intent(this, ProfessorPage.class);
         professorPage.putExtra("professor", professor);
