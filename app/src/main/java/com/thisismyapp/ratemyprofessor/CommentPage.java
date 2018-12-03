@@ -34,7 +34,7 @@ public class CommentPage extends AppCompatActivity implements AdapterView.OnItem
         commentCharCounter();
 
         Button submit = (Button) findViewById(R.id.submit);
-        
+
         final Spinner classDiffSpinner = findViewById(R.id.user_class_difficulty);
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this, R.array.class_difficulties, android.R.layout.simple_spinner_item);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
