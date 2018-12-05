@@ -57,7 +57,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        //SearchView sv = (SearchView)findViewById(R.id.search_view);
+        SearchView sv = (SearchView)findViewById(R.id.search_view);
         ListView lv = (ListView)findViewById(R.id.results_view);
         final ArrayList<String> arrayProfessor = new ArrayList<>();
         arrayProfessor.addAll(Arrays.asList(getResources().getStringArray(R.array.array_professor)));
@@ -177,11 +177,13 @@ public class MainActivity extends AppCompatActivity {
         Intent postSearchPage = new Intent(this, PostSearch.class);
         postSearchPage.putExtra("professor", professors);
         startActivity(postSearchPage);
+        finish();
     }
 
     public void Search(View view){
         Intent i = new Intent(this, PostSearch.class);
         startActivity(i);
+        finish();
     }
 
     public static Database getDatabase(){
