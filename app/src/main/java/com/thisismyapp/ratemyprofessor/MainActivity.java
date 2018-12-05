@@ -57,7 +57,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        SearchView sv = (SearchView)findViewById(R.id.search_view);
+        //SearchView sv = (SearchView)findViewById(R.id.search_view);
         ListView lv = (ListView)findViewById(R.id.results_view);
         final ArrayList<String> arrayProfessor = new ArrayList<>();
         arrayProfessor.addAll(Arrays.asList(getResources().getStringArray(R.array.array_professor)));
@@ -68,6 +68,7 @@ public class MainActivity extends AppCompatActivity {
                 arrayProfessor);
         lv.setAdapter(adapter);
 
+        /*
         sv.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
@@ -85,7 +86,7 @@ public class MainActivity extends AppCompatActivity {
                 return false;
             }
         });
-
+*/
         //This block is different from my previous version - Jared
         /*
         lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {

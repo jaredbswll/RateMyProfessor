@@ -146,6 +146,7 @@ public class PostSearch extends AppCompatActivity {
         Intent professorPage = new Intent(this, ProfessorPage.class);
         professorPage.putExtra("professor", professor);
         startActivity(professorPage);
+        finish();
     }
 
     private void openProfessorPage(String[] professor, String[] comments){
@@ -153,15 +154,18 @@ public class PostSearch extends AppCompatActivity {
         professorPage.putExtra("professor", professor);
         professorPage.putExtra("comments", comments);
         startActivity(professorPage);
+        finish();
     }
 
     public void returnToSearch(View view) {
         Intent i = new Intent(this, MainActivity.class);
         startActivity(i);
+        finish();
     }
 
     public void GoToProfessorPage(View view){
         Intent in = new Intent(this, ProfessorPage.class);
         startActivity(in);
+        finish();
     }
 }
