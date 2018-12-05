@@ -15,7 +15,7 @@ public class IntroCard extends AppCompatActivity{
             public void run() {
                 advance();
             }
-        }, 3000);
+        }, 1800);
     }
 
     private void advance(){
