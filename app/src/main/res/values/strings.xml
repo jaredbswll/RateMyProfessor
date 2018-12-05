@@ -106,4 +106,12 @@
         </item>
     </string-array>
 
+    <string-array name="class_difficulties">
+        <item>Select Option</item>
+        <item>Easy</item>
+        <item>Medium</item>
+        <item>Hard</item>
+        <item>Near Impossible</item>
+    </string-array>
+
 </resources>

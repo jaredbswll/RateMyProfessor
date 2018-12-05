@@ -59,11 +59,6 @@ public class MainActivity extends AppCompatActivity {
         final ArrayList<String> arrayProfessor = new ArrayList<>();
         arrayProfessor.addAll(Arrays.asList(getResources().getStringArray(R.array.search_letters)));
 
-/* finish - jared
-        addItemsOnSpinner();
-        addListenerOnButton();
-        addListenerOnSpinnerItemSelection();
-*/
         adapter = new ArrayAdapter<>(
                 MainActivity.this,
                 android.R.layout.simple_list_item_1,
@@ -77,12 +72,11 @@ public class MainActivity extends AppCompatActivity {
                 postSearchPage(letter);
             }
         });
-
-        fs = FirebaseFirestore.getInstance();
+        //fs = FirebaseFirestore.getInstance();
 
 //        CollectionReference profRef = fs.collection("professors");
 //        com.google.firebase.firestore.Query query = profRef.whereEqualTo("rating", 10);
-        int i = 0;
+//        int i = 0;
 //        ArrayList<DocumentReference> professors = new ArrayList<DocumentReference>();
 //
 //        String cse = "CSE ";
@@ -146,28 +140,6 @@ public class MainActivity extends AppCompatActivity {
 //            }
 //        });
 
-
-
-
-
-
-        //TESTING WITH DATABASE:
-
-//        tempDatabase = new Database(findViewById(R.id.main_layout));
-        //testing creating value in database
-/*
-        database.setValue("NEW TEST PROFESSOR!!!!!!").addOnCompleteListener(new OnCompleteListener<Void>() {
-            @Override
-            public void onComplete(@NonNull Task<Void> task) {
-                if (task.isSuccessful()){
-                    Toast.makeText(MainActivity.this, "Got Value", Toast.LENGTH_LONG).show();
-                } else {
-                    Toast.makeText(MainActivity.this, "Error with getting value", Toast.LENGTH_LONG).show();
-                }
-
-            }
-        });
-*/
     }
     public void postSearchPage(String letters){
         Intent postSearchPage = new Intent(this, PostSearch.class);

@@ -23,6 +23,7 @@
         <activity android:name=".ClassPage"></activity>
         <activity android:name=".SelectSearch"></activity>
         <activity android:name=".ClassSearch"></activity>
+        <activity android:name=".CommentPage"></activity>
     </application>
 
 </manifest>
