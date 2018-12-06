@@ -44,7 +44,7 @@ public class Database{
         System.out.println("===================================");
         System.out.println(query.toString());
 
-        query.get().addOnSuccessListener(new testListener());
+        //query.get().addOnSuccessListener(new testListener());
         //System.out.println("RETURNING");
 
 

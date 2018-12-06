@@ -8,6 +8,14 @@
     android:orientation="vertical"
     tools:context=".ClassSearch">
 
+    <ProgressBar
+        android:id="@+id/class_search_progress_bar"
+        style="?android:attr/progressBarStyleHorizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:indeterminate="true"
+        android:indeterminateTint="#005bbb  "/>
+
     <TextView
         android:id="@+id/searchComment"
         android:layout_width="match_parent"

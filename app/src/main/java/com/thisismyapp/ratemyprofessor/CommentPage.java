@@ -69,13 +69,15 @@ public class CommentPage extends AppCompatActivity implements AdapterView.OnItem
                     int classTakenLength = classTaken.length();
                     int commentCharCount = comment.length();            //Used to get the character count of the comment
                     if(checkHoursPerWeek(hoursPerWeekRating) == false){
-                        createPopUp("Check Hours Per Week", "Please make sure the hours per week entered is between 1 and 40.");
+                        createPopUp("Check Estimated Hours Per Week", "Please make sure the hours per week entered is between 1 and 40.");
                     } else if (checkUserRating(numRating) == false){
                         createPopUp("Check Rating", "Please make sure the rating entered is between 1 and 10.");
-                    } else if(commentCharCount >= 200){
+                    } else if(commentCharCount > 200){
                         createPopUp("Check Comment", "Please make sure your comment is 200 characters or less");
                     } else if(classTakenLength > 7){
                         createPopUp("Check Class Taken", "Please make the class taken entered is the class code (Ex. PSY 101, BIO 200) and not the class name.");
+                    } else if (classDifficulty.equals("Select Option")){
+                        createPopUp("Check Class Difficulty", "Please make sure you select an option from the Class Difficulty drop down menu");
                     } else {
                         userBox.setText("");
                         ratingBox.setText("");
@@ -95,7 +97,7 @@ public class CommentPage extends AppCompatActivity implements AdapterView.OnItem
                         finish();
                     }
                 } else {
-                    createPopUp("Check Text Fields", "Please make sure no text fields are left empty. Make sure value is selected from class difficulty drop down box too.");
+                    createPopUp("Check Text Fields", "Please make sure no text fields are left empty.");
                 }
             }
         });
@@ -158,7 +160,7 @@ public class CommentPage extends AppCompatActivity implements AdapterView.OnItem
      * Output: True or False
      */
     public boolean checkBoxes(String usersName, String usersRating, String usersComment, String hpw, String ct, String cd){
-        if (usersName.equals("") || usersRating.equals("") || usersComment.equals("") || hpw.equals("") || ct.equals("") || cd.equals("Select Option")){
+        if (usersName.equals("") || usersRating.equals("") || usersComment.equals("") || hpw.equals("") || ct.equals("")){
             return false;
         } else {
             return true;

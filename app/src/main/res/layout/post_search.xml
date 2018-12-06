@@ -6,6 +6,14 @@
     android:layout_height="match_parent"
     android:background="#ffffff">
 
+    <ProgressBar
+        android:id="@+id/post_search_loading"
+        style="?android:attr/progressBarStyleHorizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:indeterminate="true"
+        android:indeterminateTint="#005bbb  " />
+
     <TextView
         android:id="@+id/results_template"
         android:layout_width="wrap_content"

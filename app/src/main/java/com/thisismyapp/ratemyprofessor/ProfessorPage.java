@@ -19,6 +19,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -59,6 +60,7 @@ public class ProfessorPage extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.professor_page);
+
 
         _firestore = FirebaseFirestore.getInstance();
 
@@ -157,7 +159,11 @@ public class ProfessorPage extends AppCompatActivity {
             counter += 6;
         }
 
+
         addComment();
+
+
+
 
         /////////////////////////////////////////////////////////////
 
@@ -167,6 +173,7 @@ public class ProfessorPage extends AppCompatActivity {
         //Underlines Comments Label
         TextView commentLabel = findViewById(R.id.prof_page_comments_label);
         commentLabel.setPaintFlags(commentLabel.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
+
 
     }
 
@@ -180,6 +187,7 @@ public class ProfessorPage extends AppCompatActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
+
 
         // Check that it is the SecondActivity with an OK result
         if (requestCode == SECOND_ACTIVITY_REQUEST_CODE) {

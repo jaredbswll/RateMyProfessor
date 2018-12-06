@@ -8,6 +8,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.ProgressBar;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -27,6 +28,10 @@ public class ClassSearch extends AppCompatActivity{
         //ListView lv = (ListView)findViewById(R.id.listViewClasses);
         FirebaseFirestore firestore = FirebaseFirestore.getInstance();
 
+        final ProgressBar classSearchLoading = (ProgressBar) findViewById(R.id.class_search_progress_bar);
+        classSearchLoading.setVisibility(classSearchLoading.VISIBLE);
+
+
         firestore.collection("classes").get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
             @Override
             public void onComplete(@NonNull Task<QuerySnapshot> task) {
@@ -39,6 +44,7 @@ public class ClassSearch extends AppCompatActivity{
                         }
                     }
                     finishMe(retVal);
+                    classSearchLoading.setVisibility(classSearchLoading.GONE);
                 }
             }
         });

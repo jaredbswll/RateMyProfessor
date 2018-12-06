@@ -10,6 +10,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 
@@ -41,6 +42,9 @@ public class PostSearch extends AppCompatActivity {
         Database database = new Database();
         final String search = this.getIntent().getStringExtra("professor");
 
+        final ProgressBar postSearchLoading = (ProgressBar) findViewById(R.id.post_search_loading);
+        postSearchLoading.setVisibility(postSearchLoading.VISIBLE);
+
         firestore.collection("professors").get()
         .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
             @Override
@@ -68,6 +72,7 @@ public class PostSearch extends AppCompatActivity {
 
                     }
                     finishMe(search, resultsArray);
+                    postSearchLoading.setVisibility(postSearchLoading.GONE);
                 }
             }
         });
