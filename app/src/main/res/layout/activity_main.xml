@@ -12,7 +12,7 @@
         android:id="@+id/searchComment"
         android:layout_width="match_parent"
         android:layout_height="41dp"
-        android:text="Search for a professor by last name." />
+        android:text="Search for a professor by first name." />
 
     <ListView
         android:id="@+id/listViewProfessors"

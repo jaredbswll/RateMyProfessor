@@ -244,6 +244,8 @@ public class ProfessorPage extends AppCompatActivity {
         String date = new SimpleDateFormat("MM-dd-yyyy", Locale.getDefault()).format(new Date());
 
         int count = 0;
+        float numCom = 0;
+        float avgRate = 0;
         for (Comments c : currentProfessor.getComments()) {
             LayoutInflater inflater = (LayoutInflater) getApplicationContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             View myView = inflater.inflate(R.layout.comment_frame, null);
@@ -267,6 +269,8 @@ public class ProfessorPage extends AppCompatActivity {
             count++;
             usersRating.setText("RATING:  " + c.getRating());
 
+            avgRate += Integer.parseInt(c.getRating());
+
             TextView usersClassTaken = (TextView) findViewById(R.id.users_class_taken2);
             usersClassTaken.setId(count);
             count++;
@@ -287,8 +291,29 @@ public class ProfessorPage extends AppCompatActivity {
             count++;
             usersComment.setText(c.getComment());
 
+            //count+=1;
+            numCom += 1.0;
 
         }
+
+        TextView tv2 = (TextView) findViewById(R.id.professor_rating);
+        float tempRate = avgRate/numCom;
+        final int rating = Math.round(tempRate);
+        tv2.setText(Integer.toString(rating));
+
+        _firestore.collection("professors").document(currentProfessor.getName()).get()
+                .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                        if(task.isSuccessful()){
+                            DocumentSnapshot doc = task.getResult();
+                            DocumentReference docRef = doc.getReference();
+                            docRef.update("rating", rating);
+                        }
+                    }
+                });
+
+
     }
 
 
