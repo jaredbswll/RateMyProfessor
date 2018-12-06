@@ -15,11 +15,11 @@ public class IntroCard extends AppCompatActivity{
             public void run() {
                 advance();
             }
-        }, 5000);
+        }, 3000);
     }
 
     private void advance(){
-        Intent i = new Intent(this, MainActivity.class);
+        Intent i = new Intent(this, SelectSearch.class);
         startActivity(i);
     }
 }
