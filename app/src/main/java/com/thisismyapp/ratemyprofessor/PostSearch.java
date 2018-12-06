@@ -163,6 +163,7 @@ public class PostSearch extends AppCompatActivity {
     public void returnToSearch(View view) {
         Intent i = new Intent(this, MainActivity.class);
         startActivity(i);
+        finish();
     }
 
     public void GoToProfessorPage(View view){
