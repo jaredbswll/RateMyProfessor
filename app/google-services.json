@@ -39,6 +39,14 @@
           }
         },
         {
+          "client_id": "897534101238-2cpcn2cjrkf7ssshtrojl3huaqj2u50k.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.thisismyapp.ratemyprofessor",
+            "certificate_hash": "408f2ec3b606029bac15864d27cb6623481ae0e7"
+          }
+        },
+        {
           "client_id": "897534101238-hv4pbr0funr4l6c0pgg66isckuph2e70.apps.googleusercontent.com",
           "client_type": 3
         }
