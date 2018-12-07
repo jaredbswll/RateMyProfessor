@@ -62,7 +62,6 @@ public class ProfessorPage extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.professor_page);
 
-
         _firestore = FirebaseFirestore.getInstance();
 
         //dataBase of professors exists in the ActivityMain class. Here is where we initialize that database
@@ -267,22 +266,37 @@ public class ProfessorPage extends AppCompatActivity {
         }
 
         TextView tv2 = (TextView) findViewById(R.id.professor_rating);
-        float tempRate = avgRate/numCom;
-        final int rating = Math.round(tempRate);
-        tv2.setText(Integer.toString(rating));
-
-        _firestore.collection("professors").document(currentProfessor.getName()).get()
-                .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-                    @Override
-                    public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                        if(task.isSuccessful()){
-                            DocumentSnapshot doc = task.getResult();
-                            DocumentReference docRef = doc.getReference();
-                            docRef.update("rating", rating);
+        if(numCom == 0){
+            tv2.setText("N/A");
+            _firestore.collection("professors").document(currentProfessor.getName()).get()
+                    .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                        @Override
+                        public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                            if(task.isSuccessful()){
+                                DocumentSnapshot doc = task.getResult();
+                                DocumentReference docRef = doc.getReference();
+                                docRef.update("rating", 0);
+                            }
                         }
-                    }
-                });
+                    });
+        }
+        else{
+            float tempRate = avgRate/numCom;
+            final int rating = Math.round(tempRate);
+            tv2.setText(Integer.toString(rating));
 
+            _firestore.collection("professors").document(currentProfessor.getName()).get()
+                    .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                        @Override
+                        public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                            if(task.isSuccessful()){
+                                DocumentSnapshot doc = task.getResult();
+                                DocumentReference docRef = doc.getReference();
+                                docRef.update("rating", rating);
+                            }
+                        }
+                    });
+        }
 
     }
 
