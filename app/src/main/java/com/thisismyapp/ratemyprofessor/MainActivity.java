@@ -1,16 +1,9 @@
 package com.thisismyapp.ratemyprofessor;
 
-import android.app.SearchManager;
-import android.app.SearchableInfo;
-import android.content.Context;
 import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
-import android.view.SearchEvent;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
@@ -18,8 +11,8 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
-import android.widget.SearchView;
 import android.widget.Toast;
+
 import android.widget.Spinner;
 import android.widget.Adapter;
 
@@ -48,19 +41,23 @@ import java.util.Map;
 
 public class MainActivity extends AppCompatActivity {
 
-    ArrayList<String> list;
     ArrayAdapter<String> adapter;
     private static Database tempDatabase;
+
+    /*
+    finish - jared
+     */
+    private Spinner dropDown;
+    private Button submitButton;
     private FirebaseFirestore fs;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        SearchView sv = (SearchView)findViewById(R.id.search_view);
-        ListView lv = (ListView)findViewById(R.id.results_view);
+        ListView lv = (ListView)findViewById(R.id.listViewProfessors);
         final ArrayList<String> arrayProfessor = new ArrayList<>();
-        arrayProfessor.addAll(Arrays.asList(getResources().getStringArray(R.array.array_professor)));
+        arrayProfessor.addAll(Arrays.asList(getResources().getStringArray(R.array.search_letters)));
 
         adapter = new ArrayAdapter<>(
                 MainActivity.this,
@@ -68,35 +65,6 @@ public class MainActivity extends AppCompatActivity {
                 arrayProfessor);
         lv.setAdapter(adapter);
 
-        /*
-        sv.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
-            @Override
-            public boolean onQueryTextSubmit(String query) {
-                if (list.contains(query)){
-                    adapter.getFilter().filter(query);
-                }
-                else{
-                    Toast.makeText(MainActivity.this,"No match found", Toast.LENGTH_LONG).show();
-                }
-                return false;
-            }
-
-            @Override
-            public boolean onQueryTextChange(String newText) {
-                return false;
-            }
-        });
-*/
-        //This block is different from my previous version - Jared
-        /*
-        lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                String letter = arrayProfessor.get(i);
-                postSearchPage(letter);
-            }
-        });
-         */
         lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
@@ -173,17 +141,38 @@ public class MainActivity extends AppCompatActivity {
 //        });
 
     }
-    public void postSearchPage(String professors){
+    public void postSearchPage(String letters){
         Intent postSearchPage = new Intent(this, PostSearch.class);
-        postSearchPage.putExtra("professor", professors);
+        postSearchPage.putExtra("professor", letters);
         startActivity(postSearchPage);
-        finish();
     }
+
+    //finish spinner - jared
+   /* public void addItemsOnSpinner(){
+        dropDown = (Spinner) findViewById(R.id.dropDown);
+        List<String> list = new ArrayList<String>();
+        list.add();
+        ArrayAdapter<String> dataAdapter = new ArrayAdapter<String(this,
+                android.R.layout.simple_spinner_item, list);
+        dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        dropDown.setAdapter(dataAdapter);
+    }
+
+    public void addListenerOnSpinnerItemSelection(){
+        dropDown = (Spinner) findViewById(R.id.dropDown);
+        dropDown.setOnItemSelectedListener(new CustomOnItemSelectedListener);
+    }
+
+    public void addListenerOnButton(){
+        dropDown = (Spinner) findViewById(R.id.dropDown);
+        submitButton = (Button) findViewById(R.id.dropDown);
+
+        submitButton =
+    } */
 
     public void Search(View view){
         Intent i = new Intent(this, PostSearch.class);
         startActivity(i);
-        finish();
     }
 
     public static Database getDatabase(){
