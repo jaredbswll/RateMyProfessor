@@ -19,7 +19,8 @@ public class IntroCard extends AppCompatActivity{
     }
 
     private void advance(){
-        Intent i = new Intent(this, SelectSearch.class);
+        Intent i = new Intent(this, SignInPage.class);
         startActivity(i);
+        finish();
     }
 }

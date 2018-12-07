@@ -18,6 +18,8 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.firebase.auth.FirebaseAuth;
+
 
 public class CommentPage extends AppCompatActivity implements AdapterView.OnItemSelectedListener{
 
@@ -41,26 +43,36 @@ public class CommentPage extends AppCompatActivity implements AdapterView.OnItem
         classDiffSpinner.setAdapter(adapter);
         classDiffSpinner.setOnItemSelectedListener(this);
 
+        final Spinner classTakenSpinner = findViewById(R.id.class_taken_spinner);
+        ArrayAdapter<String> adapter2 = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, this.getIntent().getStringArrayListExtra("classesList"));
+        classTakenSpinner.setAdapter(adapter2);
+        classTakenSpinner.setOnItemSelectedListener(this);
+
+        final FirebaseAuth auth = FirebaseAuth.getInstance();
+
         //The code within the listener is mainly from submitListener class handles error checking
         // and sending info back to prof page
         submit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 //Get all input from boxes
-                TextView userBox = (TextView) findViewById(R.id.user_name_input);
+                //TextView userBox = (TextView) findViewById(R.id.user_name_input);
                 TextView ratingBox = (TextView) findViewById(R.id.user_rating_input);
                 TextView commentBox = (TextView) findViewById(R.id.commentBar);
                 TextView hoursPerWeekBox = (TextView) findViewById(R.id.user_hours_per_week);
-                TextView classTakenBox = (TextView) findViewById(R.id.user_class_taken);
+                //TextView classTakenBox = (TextView) findViewById(R.id.user_class_taken);
 
                 //Getting the strings the user types into those text views
-                String user = userBox.getText().toString();
+                //String user = userBox.getText().toString();
+                String[] temp = auth.getCurrentUser().getEmail().split("@");
+                String user = temp[0];
                 String rating = ratingBox.getText().toString();
                 String comment = commentBox.getText().toString();
                 String hpw = hoursPerWeekBox.getText().toString();
-                String classTaken = classTakenBox.getText().toString();
-                String classDifficulty = classDiffSpinner.getSelectedItem().toString();
+                //String classTaken = classTakenBox.getText().toString();
 
+                String classTaken = classTakenSpinner.getSelectedItem().toString();
+                String classDifficulty = classDiffSpinner.getSelectedItem().toString();
 
                 //Logic that checks each box and displays correct pop-up urging user to correct input
                 if(checkBoxes(user, rating, comment, hpw, classTaken, classDifficulty) == true){
@@ -79,11 +91,11 @@ public class CommentPage extends AppCompatActivity implements AdapterView.OnItem
                     } else if (classDifficulty.equals("Select Option")){
                         createPopUp("Check Class Difficulty", "Please make sure you select an option from the Class Difficulty drop down menu");
                     } else {
-                        userBox.setText("");
+                        //userBox.setText("");
                         ratingBox.setText("");
                         commentBox.setText("");
                         hoursPerWeekBox.setText("");
-                        classTakenBox.setText("");
+                        //classTakenBox.setText("");
 
                         //If all checks pass, pass all info back to be made into a comment and added to that professor and his page
                         Intent intent = new Intent();

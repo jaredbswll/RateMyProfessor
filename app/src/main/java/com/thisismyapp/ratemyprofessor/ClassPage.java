@@ -103,7 +103,7 @@ public class ClassPage extends AppCompatActivity {
                                     //0=name, 1=rating, 2=class
                                     test[0] = professor;
                                     test[1] = doc.get("rating").toString();
-                                    //ArrayList<String> classes = (ArrayList<String>) doc.get("classes");
+                                    ArrayList<String> classesList = (ArrayList<String>) doc.get("classes");
 
                                     ArrayList<DocumentReference> classes = (ArrayList<DocumentReference>) doc.get("classesRef");
 
@@ -133,7 +133,7 @@ public class ClassPage extends AppCompatActivity {
                                         }
                                     }
 
-                                    openPage(test, commentsList);
+                                    openPage(test, commentsList, classesList);
                                 }
                             }
                         });
@@ -141,10 +141,11 @@ public class ClassPage extends AppCompatActivity {
         });
     }
 
-    private void openPage(String[] professor, String[] comments){
+    private void openPage(String[] professor, String[] comments, ArrayList<String> classesList){
         Intent professorPage = new Intent(this, ProfessorPage.class);
         professorPage.putExtra("professor", professor);
         professorPage.putExtra("comments", comments);
+        professorPage.putStringArrayListExtra("classesList", classesList);
         startActivity(professorPage);
     }
 }

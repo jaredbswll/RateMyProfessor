@@ -24,6 +24,7 @@
         <activity android:name=".SelectSearch"></activity>
         <activity android:name=".ClassSearch"></activity>
         <activity android:name=".CommentPage"></activity>
+        <activity android:name=".SignInPage"></activity>
     </application>
 
 </manifest>
