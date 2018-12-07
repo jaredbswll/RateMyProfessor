@@ -145,6 +145,7 @@ public class MainActivity extends AppCompatActivity {
         Intent postSearchPage = new Intent(this, PostSearch.class);
         postSearchPage.putExtra("professor", letters);
         startActivity(postSearchPage);
+        finish();
     }
 
     //finish spinner - jared
