@@ -46,7 +46,7 @@
                 android:lines="3"
                 android:textColor="#000000"
                 android:textColorHint="#000000"
-                android:textColorLink="@color/colorPrimary" />
+                android:textColorLink="@color/colorPrimary"/>
 
             <TextView
                 android:id="@+id/char_count"
@@ -79,7 +79,8 @@
                 android:hint="Enter rating here (Must be 1-10)"
                 android:inputType="number"
                 android:maxLines="1"
-                android:textSize="15sp" />
+                android:textSize="15sp"
+                android:maxLength="2"/>
 
             <TextView
                 android:id="@+id/comment_hpw_label"
@@ -98,7 +99,8 @@
                 android:hint="Enter estimated hours per week here (1 - 40)"
                 android:inputType="number"
                 android:maxLines="1"
-                android:textSize="15sp" />
+                android:textSize="15sp"
+                android:maxLength="2"/>
 
             <TextView
                 android:id="@+id/comment_class_taken_label"

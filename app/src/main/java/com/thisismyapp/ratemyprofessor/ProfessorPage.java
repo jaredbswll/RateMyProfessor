@@ -228,10 +228,10 @@ public class ProfessorPage extends AppCompatActivity {
             count++;
             usersName.setText("NAME:  " + c.getName());
 
-            TextView currentDate = (TextView) findViewById(R.id.date2);
+            /*TextView currentDate = (TextView) findViewById(R.id.date2);
             currentDate.setId(count);
             count++;
-            currentDate.setText("DATE:  " + date);
+            currentDate.setText("DATE:  " + date);*/
 
             TextView usersRating = (TextView) findViewById(R.id.users_rating2);
             usersRating.setId(count);
@@ -267,7 +267,7 @@ public class ProfessorPage extends AppCompatActivity {
 
         TextView tv2 = (TextView) findViewById(R.id.professor_rating);
         if(numCom == 0){
-            tv2.setText("N/A");
+            tv2.setText("RATING: N/A");
             _firestore.collection("professors").document(currentProfessor.getName()).get()
                     .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
                         @Override
@@ -283,7 +283,7 @@ public class ProfessorPage extends AppCompatActivity {
         else{
             float tempRate = avgRate/numCom;
             final int rating = Math.round(tempRate);
-            tv2.setText(Integer.toString(rating));
+            tv2.setText("RATING: " + Integer.toString(rating));
 
             _firestore.collection("professors").document(currentProfessor.getName()).get()
                     .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
