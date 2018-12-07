@@ -7,6 +7,13 @@
     <string name="textbookTag">Required Textbook:   </string>
     <string name="profSearch">Search By Professor</string>
     <string name="classSearch">Search By Class</string>
+    <string name="email_default">Email</string>
+    <string name="password_default">Password</string>
+    <string name="sign_up_default">SIGN UP</string>
+    <string name="sign_in_default">SIGN IN</string>
+    <string name="username_default">Username</string>
+    <string name="logout_default">Logout</string>
+
     <string-array name="array_professor">
         <item>Hertz, Matthew</item>
         <item>Blanton, Marina</item>

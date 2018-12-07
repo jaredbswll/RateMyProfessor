@@ -50,6 +50,7 @@ public class ProfessorPage extends AppCompatActivity {
     private Database database;     //Place where data will be stored for professors in the meantime
     private ArrayList<Professor> tempDatabase;
     private Professor currentProfessor;       //current Professor being shown on the page
+    private ArrayList<String> classesList;
     private String[] testProfSearch;
 
     private FirebaseFirestore _firestore;
@@ -84,38 +85,9 @@ public class ProfessorPage extends AppCompatActivity {
         //RANDOM VALUE FOR profSearch TO TEST:
         //profSearch = this.getIntent().getStringExtra("professor");
         testProfSearch = this.getIntent().getStringArrayExtra("professor");
+        classesList = this.getIntent().getStringArrayListExtra("classesList");
 
         currentProfessor = new Professor(testProfSearch[0], testProfSearch[1], testProfSearch[2]);
-
-//        _firestore.collection("professors").document("Matthew Hertz")
-//                .get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-//            @Override
-//            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-//                DocumentSnapshot profes = task.getResult();
-//                if(profes.exists() && profes != null) {
-//                    String classes = profes.getString("class");
-//                    String rating = (String) profes.get("rating");
-//
-//                    currentProfessor = new Professor(profSearch, rating, classes);
-//                }
-//            }
-//        });
-
-//        Map<String, Object> test = new HashMap<String, Object>();
-//        test.put("class", "CSE 999");
-//        test.put("rating", 0);
-//
-//        _firestore.collection("professors").document("Dominic DiStefano").set(test);
-
-        //Search to get professors correct index to be used by each array
-//        int index = 0;
-//        for (int i = 0; i < profNameArray.length; i++){
-//            if (profSearch.equals(profNameArray[i])){
-//                index = i;
-//                currentProfessor = tempDatabase.get(i);
-//            }
-//        }
-
 
         //Update the UI:
         TextView tv1 = (TextView) findViewById(R.id.professor_name);
@@ -137,6 +109,7 @@ public class ProfessorPage extends AppCompatActivity {
                 Intent intent = new Intent(currentPage, CommentPage.class);
                 //This is used to call the commentPage and wait until submit is clicked to get the
                 //data from that page
+                intent.putStringArrayListExtra("classesList", classesList);
                 startActivityForResult(intent, SECOND_ACTIVITY_REQUEST_CODE);
             }
         });
@@ -159,24 +132,13 @@ public class ProfessorPage extends AppCompatActivity {
             counter += 6;
         }
 
-
         addComment();
-
-
-
-
-        /////////////////////////////////////////////////////////////
-
-
-
 
         //Underlines Comments Label
         TextView commentLabel = findViewById(R.id.prof_page_comments_label);
         commentLabel.setPaintFlags(commentLabel.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
 
-
     }
-
 
     /*
     * Description: This is a special function that is called when the user submits their comment it gets all

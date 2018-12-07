@@ -12,6 +12,7 @@ import android.widget.Button;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -49,29 +50,17 @@ public class PostSearch extends AppCompatActivity {
             @Override
             public void onComplete(@NonNull Task<QuerySnapshot> task) {
                 if(task.isSuccessful()){
+                    //Toast.makeText(getApplicationContext(), "Access Successful", Toast.LENGTH_SHORT).show();
                     for(QueryDocumentSnapshot doc: task.getResult()) {
                         if (doc.getId().toLowerCase().charAt(0) == search.toLowerCase().charAt(0)) {
                             resultsArray.add(doc.getId());
                         }
-                        //This is how you add a new comment to the database
-//                        DocumentReference docRef = doc.getReference();
-//                        Map<String, Object> comment = new HashMap<String, Object>();
-//
-//                        comment.put("classDifficulty", "Near Impossible");
-//                        comment.put("classTaken", "CSE 888");
-//                        comment.put("hpw", 21);
-//                        comment.put("rating", 2);
-//                        comment.put("user", "NickJack");
-//                        comment.put("comment", "This is another test comment");
-//                        ArrayList<Map<String, Object>> commentsList =  (ArrayList<Map<String, Object>>) doc.get("comments");
-//                        //ArrayList<Map<String, Object>> comments = new ArrayList<Map<String, Object>>();
-//                        commentsList.add(comment);
-//
-//                        docRef.update("comments", commentsList);
-
                     }
                     finishMe(search, resultsArray);
                     postSearchLoading.setVisibility(postSearchLoading.GONE);
+                }
+                else{
+                    //Toast.makeText(getApplicationContext(), "Access Denied", Toast.LENGTH_SHORT).show();
                 }
             }
         });
@@ -97,41 +86,42 @@ public class PostSearch extends AppCompatActivity {
                         .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
                             @Override
                             public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                                DocumentSnapshot doc = task.getResult();
-                                String[] test = new String[3];
-                                //0=name, 1=rating, 2=class
-                                test[0] = professor;
-                                test[1] = doc.get("rating").toString();
-                                //ArrayList<String> classes = (ArrayList<String>) doc.get("classes");
+                                if (task.isSuccessful()) {
+                                    //Toast.makeText(getApplicationContext(), "Access Successful", Toast.LENGTH_SHORT).show();
+                                    DocumentSnapshot doc = task.getResult();
+                                    String[] test = new String[3];
+                                    //0=name, 1=rating, 2=class
+                                    test[0] = professor;
+                                    test[1] = doc.get("rating").toString();
+                                    ArrayList<String> classesList = (ArrayList<String>) doc.get("classes");
 
-                                ArrayList<DocumentReference> classes = (ArrayList<DocumentReference>) doc.get("classesRef");
+                                    ArrayList<DocumentReference> classes = (ArrayList<DocumentReference>) doc.get("classesRef");
 
-                                String classNames = "";
-                                for(DocumentReference dRef: classes){
-                                    if(classNames.equals("")){
-                                        classNames = dRef.getId();
+                                    String classNames = "";
+                                    for (DocumentReference dRef : classes) {
+                                        if (classNames.equals("")) {
+                                            classNames = dRef.getId();
+                                        } else {
+                                            classNames = classNames + ", " + dRef.getId();
+                                        }
                                     }
-                                    else {
-                                        classNames = classNames + ", " + dRef.getId();
+                                    test[2] = classNames;
+
+                                    ArrayList<Map<String, Object>> comments = (ArrayList<Map<String, Object>>) doc.get("comments");
+                                    String[] commentsList = new String[comments.size() * 6];
+                                    int index = 0;
+                                    for (Map<String, Object> com : comments) {
+                                        for (Object elem : com.values()) {
+                                            String temp = elem.toString();
+                                            commentsList[index] = temp;
+                                            index += 1;
+                                        }
                                     }
+                                    openProfessorPage(test, commentsList, classesList);
+
+                                } else{
+                                    Toast.makeText(getApplicationContext(), "Access Denied", Toast.LENGTH_SHORT).show();
                                 }
-
-                                //test[2] = doc.getString("class");
-                                //test[2] = classes.toString();
-                                test[2] = classNames;
-
-                                ArrayList<Map<String, Object>> comments = (ArrayList<Map<String, Object>>) doc.get("comments");
-                                String[] commentsList = new String[comments.size() * 6];
-                                int index = 0;
-                                for(Map<String, Object> com: comments){
-                                    for(Object elem: com.values()){
-                                        String temp = elem.toString();
-                                        commentsList[index] = temp;
-                                        index += 1;
-                                    }
-                                }
-                                openProfessorPage(test, commentsList);
-
                             }
                         });
                 //openProfessorPage(professor);
@@ -152,10 +142,11 @@ public class PostSearch extends AppCompatActivity {
         startActivity(professorPage);
     }
 
-    private void openProfessorPage(String[] professor, String[] comments){
+    private void openProfessorPage(String[] professor, String[] comments, ArrayList<String> classesList){
         Intent professorPage = new Intent(this, ProfessorPage.class);
         professorPage.putExtra("professor", professor);
         professorPage.putExtra("comments", comments);
+        professorPage.putStringArrayListExtra("classesList", classesList);
         startActivity(professorPage);
     }
 
