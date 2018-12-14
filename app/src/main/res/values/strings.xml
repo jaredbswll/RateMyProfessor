@@ -13,6 +13,7 @@
     <string name="sign_in_default">SIGN IN</string>
     <string name="username_default">Username</string>
     <string name="logout_default">Logout</string>
+    <string name="password_confirm">Confirm Password</string>
 
     <string-array name="array_professor">
         <item>Hertz, Matthew</item>

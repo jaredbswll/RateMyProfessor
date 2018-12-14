@@ -66,7 +66,11 @@ public class SignInPage extends AppCompatActivity implements View.OnClickListene
                 signIn();
                 break;
             case R.id.sign_up_button:
-                signUp();
+                //New Activity to go to signup page and finish
+                Intent signUp = new Intent(this, SignUpPage.class);
+                startActivity(signUp);
+                finish();
+                //signUp();
                 break;
         }
     }
